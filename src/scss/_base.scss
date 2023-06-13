@@ -1,0 +1,201 @@
+// images to act responsively.
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.desktop-only {
+  @media (max-width: 992px) {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.p1 {
+  font-size: 20px;
+}
+
+.p2 {
+  font-size: 18px;
+}
+
+.font-size {
+  @media (min-width: 768px) {
+    font-size: 9px;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 10px;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 10px;
+  }
+
+  @media (min-width: 1400px) {
+    font-size: 12px;
+  }
+
+  @media (min-width: 1800px) {
+    font-size: 15px;
+  }
+}
+
+.color-white {
+  color: $color-white;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.text-link {
+  color: $primary-blue-color;
+}
+
+.text-grayed {
+  opacity: 0.5;
+}
+
+.text-inline-grayed {
+  color: $text-inline-grayed;
+}
+
+.text-gray-dark {
+  color: $color-grey-darker;
+}
+
+.text-orange {
+  color: $color-orange;
+}
+
+.wrap-text {
+  white-space: normal !important;
+}
+
+.text-truncate {
+  max-width: 100%;
+}
+
+// boostrap default overwrites
+.h8 {
+  font-size: 0.625rem;
+}
+
+.h7 {
+  font-size: 0.75rem;
+}
+
+.h7-i {
+  font-size: 0.75rem !important;
+}
+
+.h6-5 {
+  font-size: 0.875rem;
+}
+
+.h5-5 {
+  font-size: 1.3125rem;
+  font-weight: 500;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.h6-5-important {
+  font-size: 0.875rem !important;
+}
+
+.h1-5 {
+  font-size: 2.25rem;
+}
+
+.lh-2 {
+  line-height: 2rem !important;
+}
+
+// margins extensions
+
+.mb-4-5 {
+  margin-bottom: 2.5rem !important;
+}
+
+.p-3-5 {
+  padding: 1.25rem !important;
+}
+// badges extension
+
+.badge-outline {
+  background-color: $color-white !important;
+  font-weight: 700 !important;
+
+  &.badge-dark {
+    border: $badge-dark-border;
+    color: $color-dark;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .login-page-right-side-section {
+    padding: 7rem 2rem 7rem 2rem !important;
+  }
+}
+// wizard related styles
+.login-page-right-side-section {
+  padding: 3rem 7rem 7rem 7.375rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  justify-content: stretch;
+  flex-wrap: nowrap !important;
+  min-height: 100%;
+  .btn-wrapper {
+    margin: 1.5rem 0 0;
+    .btn {
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+    svg {
+      height: 20px;
+      margin: 0 0 0 0.5rem;
+    }
+  }
+  > form {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  &.form-wrapper {
+    .field-wrapper {
+      margin-bottom: 0;
+      label {
+        font-weight: 700;
+      }
+    }
+  }
+  .content-wrapper {
+    max-width: 484px;
+    margin-bottom: 2.5rem;
+    &.custom-width {
+      @include medium-desktop {
+        margin-right: -30px;
+      }
+      @include tablet {
+        margin-right: 0;
+      }
+    }
+    .content {
+      margin-top: 1.5rem;
+    }
+  }
+  .accepted-terms {
+    margin-right: 0 !important;
+    padding-bottom: 0;
+  }
+}

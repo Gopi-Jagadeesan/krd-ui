@@ -1,0 +1,30 @@
+.navbar {
+  padding: 0.75rem 0;
+  background: $color-white;
+  .site-logo {
+    img {
+      // max-width: 140px;
+      height: 40px;
+    }
+  }
+  &.bg-white-ivory {
+    .nav-link {
+      color: $color-dark-purple;
+    }
+  }
+}
+
+// login btn
+.login-btn {
+  svg {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+.active-link {
+  color: #5EB000;
+  border: 2px solid #5EB000;
+  border-radius: 0.4375rem;
+  font-size: large;
+}

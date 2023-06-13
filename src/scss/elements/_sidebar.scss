@@ -1,0 +1,70 @@
+@import "../../scss/variables";
+@import "../../scss/mixins";
+#sidebar {
+  @media screen and (min-width: 991px) {
+    min-width: 250px;
+  }
+  border-right: 1px solid #e2e2e8;
+  color: lightgray;
+  min-height: calc(100vh - 61px); // minus the navbar height
+  position: relative;
+
+  ul {
+    // border-bottom: 1px solid $color-background-gray;
+
+    p {
+      color: #292934;
+      margin-top: 10px;
+      font-size: 20px;
+    }
+
+    li {
+      border-left: 3px solid transparent;
+      transition: all 180ms ease;
+      &.active {
+        background-color: #fff;
+        border-left: 3px solid $color-cerulean;
+        svg {
+          color: $color-cerulean;
+          path {
+            fill: currentColor !important;
+          }
+        }
+      }
+
+      &:not(:first-child) {
+        margin-top: 10px;
+      }
+
+      a {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0.8125rem 0.875rem;
+        font-size: 1rem;
+        color: #292934;
+        text-decoration: none;
+      }
+      svg {
+        max-height: 22px;
+        margin: 0 1rem 0 0;
+        min-width: 24px;
+        @include tablet {
+          margin-right: 0;
+        }
+      }
+      &:hover {
+        background-color: #fff;
+        border-left: 3px solid #3572b0;
+        color: #000;
+        .sidebar-menu {
+          color: #2496cd;
+        }
+      }
+    }
+  }
+}
+
+a[aria-expanded="true"] {
+  color: #292934;
+}

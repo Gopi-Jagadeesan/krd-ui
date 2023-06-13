@@ -1,0 +1,174 @@
+.btn-login {
+  background: #224562 !important;
+  color: $color-white !important;
+  font-size: $paragraph-font-size !important;
+  font-weight: bold !important;
+  min-height: 46px;
+
+  &:hover {
+    background: $color-white !important;
+    color: #224562 !important;
+    border: 2px solid #224562;
+  }
+}
+
+body {
+  font-family: $theme-font !important;
+  font-size: $button-font-size;
+}
+
+.loggedin-layout {
+  background-color: $theme-color-body-background;
+}
+
+//Button
+button,
+a {
+  &.btn {
+    -moz-border-radius: 0.4375rem;
+    -webkit-border-radius: 0.4375rem;
+    border-radius: 0.4375rem;
+  }
+}
+
+.btn {
+  &.outline-bold {
+    border-width: 2px;
+
+    &:hover {
+      background: 1px solid $theme-color-alt;
+      text-decoration: none;
+    }
+  }
+
+  &.btn-secondary {
+    background-color: $primary-button-color;
+    border: 0;
+    color: $color-white;
+
+    &:hover {
+      background-color: $secondary-button-color-hover;
+      border: 0;
+    }
+
+    &:focus {
+      background-color: $primary-button-color;
+      border: 0;
+      color: $color-white;
+    }
+
+    &.focus {
+      background-color: $primary-button-color;
+      border: 0;
+      color: $color-white;
+    }
+
+    &.disabled {
+      background-color: $primary-button-color;
+      border: 0;
+      color: $color-white;
+    }
+
+    &:disabled {
+      background-color: $primary-button-color;
+      border: 0;
+      color: $color-white;
+    }
+  }
+}
+
+// Spinners
+.spinner-loading {
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-picture-preview {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  height: 110px;
+  object-fit: cover;
+  width: 110px;
+}
+
+.accepted-terms {
+  span {
+    color: $color-light-black;
+    float: left;
+    font-size: $span-font-size;
+    margin-top: -3px;
+    padding-left: 10px;
+  }
+
+  input {
+    &[type="checkbox"] {
+      cursor: pointer;
+      float: left;
+      position: relative;
+
+      &::before {
+        background-color: $color-white;
+        border: 2px solid #224562;
+        border-radius: 3px;
+        content: "";
+        display: block;
+        height: 16px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 16px;
+      }
+
+      &:checked {
+        &::after {
+          -ms-transform: rotate(45deg);
+          -webkit-transform: rotate(45deg);
+          border: 2px solid #224562;
+          border-width: 0 2px 2px 0;
+          content: "";
+          display: block;
+          height: 10px;
+          left: 6px;
+          position: absolute;
+          top: 2px;
+          transform: rotate(45deg);
+          width: 5px;
+        }
+      }
+    }
+  }
+
+  .invalid-feedback {
+    display: block;
+    margin-top: 20px;
+  }
+}
+
+.page-title-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hide {
+  display: none;
+}
+
+.hover-on:hover + .hide {
+  bottom: 30px;
+  $color: #808080;
+  display: block;
+  position: relative;
+}
+
+.slick-prev:before {
+  $color: #000;
+}
+
+.slick-next:before {
+  $color: #000;
+}
