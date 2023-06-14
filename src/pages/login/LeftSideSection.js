@@ -1,5 +1,5 @@
 import React from "react";
-import sidebarImage from "../../assets/img/krishnan.jpg";
+import sidebarImage from "../../assets/img/krd-hero-image.jpg";
 class LeftSideSection extends React.Component {
   render() {
     return (
