@@ -6,6 +6,8 @@ import UserNavDropdown from "./UserNavDropdown";
 // Assets
 import Logo from "../Logo";
 
+import krdLogo from "../../assets/img/logo-1.png";
+
 const DashboardNavigation = ({ allowAccess, id, avatar, portalName }) => {
   return (
     <>
@@ -15,11 +17,15 @@ const DashboardNavigation = ({ allowAccess, id, avatar, portalName }) => {
           height: "4rem",
         }}>
         <div className="container " style={{ maxWidth: "100%" }}>
-          <div
-            className={`d-flex align-items-center dropdown-wrapper`}>
+          <div className={`d-flex align-items-center dropdown-wrapper`}>
             <div id="menu"></div>
 
-            <Logo link="/dashboard" altText={portalName} label={portalName} />
+            <Logo
+              src={krdLogo}
+              link="/dashboard"
+              altText={portalName}
+              label={portalName}
+            />
           </div>
 
           <div>

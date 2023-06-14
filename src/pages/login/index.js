@@ -2,6 +2,8 @@ import React from "react";
 import { LoginForm } from "../../components/authentication/AuthButtons";
 import Avatar from "../../components/Avatar";
 import LeftSideSection from "./LeftSideSection";
+import krdIcon from "../../assets/img/icon1.png";
+import leftNavigationBackgroundImage from "../../assets/img/wordfile-2-1.png";
 
 class Login extends React.Component {
   constructor(props) {
@@ -13,7 +15,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const leftNavigationBackgroundImage = "";
+    // const leftNavigationBackgroundImage = "";
 
     return (
       <div className="container-fluid" style={{ minHeight: "100vh" }}>
@@ -33,11 +35,12 @@ class Login extends React.Component {
             <div className="login-page-right-side-section form-wrapper  justify-content-center">
               <div className="client-login-wrapper">
                 <div className="d-flex justify-content-center mb-3">
-                  <Avatar
+                  {/* <Avatar
                     editProfile={false}
                     customSize={240}
                     className="profile-picture-preview rounded-circle d-block avatar-placeholder"
-                  />
+                  /> */}
+                  <img src={krdIcon} alt="krd-icon" />
                 </div>
                 <h2 className="pb-3 text-center login-text font-weight-bold mb-0">
                   Login to KRD System

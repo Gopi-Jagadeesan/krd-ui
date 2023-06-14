@@ -1,5 +1,5 @@
 import React from "react";
-
+import sidebarImage from "../../assets/img/krishnan.jpg";
 class LeftSideSection extends React.Component {
   render() {
     return (
@@ -8,10 +8,14 @@ class LeftSideSection extends React.Component {
           className="dashboard-sidebar-image d-flex flex-column align-items-center justify-content-center"
           style={{
             height: "100%",
+            // backgroundImage: "url(" + sidebarImage + ")",
             backgroundPosition: "center center",
             backgroundRepeat: "no-repeat",
             backgroundColor: "#ffffff",
-          }}></div>
+          }}
+          >
+            <img src={sidebarImage} alt="KRD" />
+          </div>
       </div>
     );
   }
