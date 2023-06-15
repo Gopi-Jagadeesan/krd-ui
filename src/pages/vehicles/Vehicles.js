@@ -49,6 +49,12 @@ const Vehicles = () => {
     setDeleteModal(!deleteModal);
   };
 
+  // Status options
+  const statusOptions = [
+    { value: "in", text: "in" },
+    { value: "out", text: "out" },
+  ];
+
   // Sort by options
   const sortByOption = [
     {
@@ -105,6 +111,9 @@ const Vehicles = () => {
     if (values && values.reg_no !== undefined) {
       data.append("reg_no", values && values.reg_no);
     }
+    if (values && values.status !== undefined) {
+      data.append("status", values && values.status);
+    }
     if (values && values.notes !== undefined) {
       data.append("notes", values && values.notes);
     }
@@ -151,6 +160,7 @@ const Vehicles = () => {
     notes: currentData && currentData.notes,
     type: currentData && currentData.type,
     color: currentData && currentData.color,
+    status: currentData && currentData.status,
   };
 
   const formSchema = {
@@ -227,6 +237,15 @@ const Vehicles = () => {
         position: 3,
         placeholder: "Enter Name",
         choices: [],
+      },
+      {
+        id: "status",
+        name: "status",
+        label: "Status",
+        type: "DROPDOWN",
+        position: 3,
+        placeholder: "Select Status",
+        choices: statusOptions,
       },
       {
         id: "color",
