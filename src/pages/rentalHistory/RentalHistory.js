@@ -46,8 +46,7 @@ const RentalHistory = (props) => {
           sortByOptions={sortByOption}
           disableColumnSort={true}
           onRowClick={(row) => {
-            console.log("row ------>", row);
-            // history.push(`/customers/details/${row.id}`);
+            history.push(`/rentals/details/${row.id}`);
           }}>
           <ReduxColumn
             minWidth="150px"

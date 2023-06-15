@@ -79,9 +79,9 @@ const Rental = (props) => {
     if (values && values.ending_km !== undefined) {
       data.append("ending_km", values && values.ending_km);
     }
-    dispatch(API.closeRentals(data, history, {}));
+    dispatch(API.closeRentals(data, {}));
     toggleCloseRental();
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   // Rental delete function
