@@ -26,6 +26,7 @@ const Rental = (props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [currentRowData, setCurrentRowData] = useState();
   const [closeRentalModal, setCloseRentalModal] = useState(false);
+  const status = "notClosed";
 
   console.log("currentRowData ----->", currentRowData);
   // Dispach
@@ -69,6 +70,9 @@ const Rental = (props) => {
     if (currentRowData) {
       data.append("id", currentRowData && currentRowData.id);
     }
+    if (currentRowData) {
+      data.append("vehicle_id", currentRowData.vehicle_id);
+    }
     if (values && values.closed_by !== undefined) {
       data.append("closed_by", values && values.closed_by);
     }
@@ -77,6 +81,7 @@ const Rental = (props) => {
     }
     dispatch(API.closeRentals(data, history, {}));
     toggleCloseRental();
+    window.location.reload(false);
   };
 
   // Rental delete function
@@ -91,7 +96,6 @@ const Rental = (props) => {
     const { values, isValid } = await closeRentalFormRef.current.doSubmit(e);
 
     if (isValid) {
-      console.log("values ----->", values);
       handleSave(values);
     }
   };
@@ -185,7 +189,7 @@ const Rental = (props) => {
           id="rentals"
           showHeader
           searchPlaceholder="Search Rentals"
-          apiURL={`${endpoints().rentalsAPI}/search`}
+          apiURL={`${endpoints().rentalsAPI}/search/${status}`}
           newTableHeading
           sortByOptions={sortByOption}
           disableColumnSort={true}

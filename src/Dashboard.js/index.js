@@ -31,16 +31,16 @@ const Dashboard = (props) => {
       header: "Vehicles In",
       text:
         dashboardData &&
-        dashboardData.vehiclesData &&
-        dashboardData.vehiclesData.slice(0, 5).reverse(),
+        dashboardData.inVehiclesData &&
+        dashboardData.inVehiclesData.slice(0, 5).reverse(),
       redirectTo: "/vehicles",
     },
     {
       header: "Vehicles Out",
       text:
         dashboardData &&
-        dashboardData.vehiclesData &&
-        dashboardData.vehiclesData.slice(0, 5).reverse(),
+        dashboardData.outVehiclesData &&
+        dashboardData.outVehiclesData.slice(0, 5).reverse(),
       redirectTo: "/vehicles",
     },
     {

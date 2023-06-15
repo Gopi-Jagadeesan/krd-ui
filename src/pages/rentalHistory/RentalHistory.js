@@ -21,7 +21,7 @@ import { Col, Row } from "reactstrap";
 
 const RentalHistory = (props) => {
   const { history } = props;
-
+  const status = "closed";
   // Sort by options
   const sortByOption = [
     {
@@ -33,13 +33,7 @@ const RentalHistory = (props) => {
   return (
     <>
       {/*Redux table  */}
-      <PageTitle
-        label="Rentals"
-        buttonHandler={() => {
-          history.push(`/rentals/create`);
-        }}
-        buttonLabel="Add New"
-      />
+      <PageTitle label="Rental History" />
 
       <div className="mt-4 mb-5">
         <ReduxTable
@@ -47,7 +41,7 @@ const RentalHistory = (props) => {
           id="rentals"
           showHeader
           searchPlaceholder="Search Rentals"
-          apiURL={`${endpoints().rentalsAPI}/search`}
+          apiURL={`${endpoints().rentalsAPI}/search/${status}`}
           newTableHeading
           sortByOptions={sortByOption}
           disableColumnSort={true}
@@ -69,11 +63,14 @@ const RentalHistory = (props) => {
           <ReduxColumn minWidth="100px" field="reg_no">
             Reg No
           </ReduxColumn>
+          <ReduxColumn minWidth="100px" field="status">
+            Status
+          </ReduxColumn>
           <ReduxColumn minWidth="100px" field="start_date">
             Started At
           </ReduxColumn>
-          <ReduxColumn minWidth="100px" field="expected_delivery">
-            Expected At
+          <ReduxColumn minWidth="100px" field="end_date">
+            Closed At
           </ReduxColumn>
           <ReduxColumn minWidth="70px" field="advance_amount">
             Advance
@@ -109,8 +106,7 @@ const RentalHistory = (props) => {
                     <span
                       className="text-danger cursor-pointer mr-2"
                       onClick={() => {
-                        setCurrentRowData(row);
-                        setEditModal(true);
+                        history.push(`/edit-rental/${row.id}`);
                       }}>
                       <FwButton size="icon">
                         <FwIcon name="edit" color="white"></FwIcon>

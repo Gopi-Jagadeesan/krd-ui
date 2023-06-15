@@ -116,7 +116,7 @@ export function addRentals(data) {
       .post(`${endpoints().rentalsAPI}`, data)
       .then((response) => {
         dispatch(
-          fetchList("rentals", `${endpoints().rentalsAPI}/search`, 1, 10)
+          fetchList("rentals", `${endpoints().rentalsAPI}/search/rented`, 1, 10)
         );
         let successMessage;
         if (response && response.data) {
@@ -258,7 +258,7 @@ export function closeRentals(data) {
       .put(`${endpoints().rentalsAPI}/close`, data)
       .then((response) => {
         dispatch(
-          fetchList("rentals", `${endpoints().rentalsAPI}/search`, 1, 10)
+          fetchList("rentals", `${endpoints().rentalsAPI}/search/rented`, 1, 10)
         );
         let successMessage;
         if (response && response.data) {

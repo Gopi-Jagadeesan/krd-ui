@@ -13,7 +13,7 @@ const InsightCard = (props) => {
               <div className="ag-courses-item_bg"></div>
 
               <Link
-                to={`/applications`}
+                to={`/vehicles`}
                 style={{
                   color: "inherit",
                   textDecoration: "none",
@@ -34,9 +34,9 @@ const InsightCard = (props) => {
                 <div className="ag-courses-item_date-box">
                   <div className="text-white" style={{ fontSize: "60px" }}>
                     {dashboardData &&
-                    dashboardData.vehiclesData &&
-                    dashboardData.vehiclesData.length
-                      ? dashboardData.vehiclesData.length
+                    dashboardData.inVehiclesData &&
+                    dashboardData.inVehiclesData.length
+                      ? dashboardData.inVehiclesData.length
                       : 0}
                   </div>
                 </div>
@@ -48,7 +48,7 @@ const InsightCard = (props) => {
               <div className="ag-courses-item_bg"></div>
 
               <Link
-                to={`/customers`}
+                to={`/vehicles`}
                 style={{
                   color: "inherit",
                   textDecoration: "none",
@@ -69,9 +69,9 @@ const InsightCard = (props) => {
                 <div className="ag-courses-item_date-box">
                   <div className="text-white" style={{ fontSize: "60px" }}>
                     {dashboardData &&
-                    dashboardData.vehiclesData &&
-                    dashboardData.vehiclesData.length
-                      ? dashboardData.vehiclesData.length
+                    dashboardData.outVehiclesData &&
+                    dashboardData.outVehiclesData.length
+                      ? dashboardData.outVehiclesData.length
                       : 0}
                   </div>
                 </div>
@@ -83,7 +83,7 @@ const InsightCard = (props) => {
               <div className="ag-courses-item_bg"></div>
 
               <Link
-                to={`/servers`}
+                to={`/rentals`}
                 style={{
                   color: "inherit",
                   textDecoration: "none",
@@ -118,7 +118,7 @@ const InsightCard = (props) => {
               <div className="ag-courses-item_bg"></div>
 
               <Link
-                to={`/users`}
+                to={`/customers`}
                 style={{
                   color: "inherit",
                   textDecoration: "none",

@@ -4,6 +4,7 @@ import {
   FwForm,
   FwFormControl,
   FwModal,
+  ToastController,
 } from "@freshworks/crayons/react";
 import React, { useEffect, useRef, useState } from "react";
 import { Card, CardText, CardTitle, Col, Row } from "reactstrap";
@@ -14,6 +15,11 @@ import { apiClient } from "../../apiClient";
 // Actions
 import * as API from "./Action";
 import { useDispatch } from "react-redux";
+import Loader from "../../components/Loader";
+import axios from "axios";
+
+// Initialize toast message
+const toastMessage = ToastController({ position: "top-center" });
 
 const CreateRental = (props) => {
   const { history } = props;
@@ -22,7 +28,10 @@ const CreateRental = (props) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [vehicleOption, setVehicleOptions] = useState([]);
   const [existingCustomer, setCustomerData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [generatedOtp, setGeneratedOtp] = useState("");
 
+  console.log("generatedOtp =====>", generatedOtp);
   // Use Ref
   const mobileFormRef = useRef();
   const otpFormRef = useRef();
@@ -72,10 +81,16 @@ const CreateRental = (props) => {
           data
             .sort((a, b) => parseFloat(a.sort) - parseFloat(b.sort))
             .forEach((vehicleData) => {
-              vehicleOptions.push({
-                value: vehicleData.id,
-                text: vehicleData.name,
-              });
+              if (vehicleData && vehicleData.status == "in") {
+                vehicleOptions.push({
+                  value: vehicleData.id,
+                  text: `${vehicleData.name ? vehicleData.name : ""} - ${
+                    vehicleData.reg_no
+                  } ${vehicleData.color ? vehicleData.color : ""} ${
+                    vehicleData.notes ? vehicleData.notes : ""
+                  }`,
+                });
+              }
             });
           setVehicleOptions(vehicleOptions);
         }
@@ -99,6 +114,26 @@ const CreateRental = (props) => {
             });
           setCustomerData(customerData);
           setOtpValidated(true);
+        } else {
+          var val = Math.floor(1000 + Math.random() * 9000);
+          setGeneratedOtp(val);
+
+          var config = {
+            method: "get",
+            url: `https://www.fast2sms.com/dev/bulkV2?authorization=TYIXHAsOfDGnVmdoMtJ5vK8QjFewLE6uqyCk1Rpb3rchxPWNz4x9tBHLKcwkMoC3EXsmnfIN7l6pz1Uy&variables_values=${val}&route=otp&numbers=${number}`,
+            headers: {
+              Cookie:
+                "0soQJp4CzjlnO7f4ZpyM3WusQrdbQw7D1Uc9qRVo=eyJpdiI6IkcwQzJNeXZJU0h2bXNweUpjbWc0RlE9PSIsInZhbHVlIjoiU0g1R2VjVkR0d2NjTXZWdVdYS1pFd0NWSVF4WUVKbGdwZ1FTVE9cL3FzNEJTb1hIbUxqQ3JHSE5GWHZmVDV1NElDXC9oNUhYTXluYUVaXC9WYlBQejFYdHd2bml2WVZxUW5aODEwMEY5YTNKUjE5cGowRW4zOTU2T0FDeit0UCtlbE1sUzFERlwvdm9QOGtmSUxjVkZ0Vk5qQlpyXC9rZFZZN0diXC9MbXM0K0NWNXhjQk94WUlCWlZ2T3RQVThLZTBBeEZPOXNSeXRcL3U4WEE1S1JhTVVab09hRk04RVZTeDBCN2hqODNrM0dET2hiSHNIaGpFQ0Rqa21Gelk4c3UyVkl5RjZhQ0RaUG0wM0xIS3o5OVVcL1F2WXlwN3RoTW41VGpRTlllNG1cL2srUERqRHBITHNUaFBzVDdISUxESkk0ZUFtc1lmQUkzcjdcL0dCTEJyMXJrM00wdzlWbWpxY1FwSjRwM2RtcXhlQlM5VXROeDBJR2lFMXJOWkE5XC9SM1ZtYXBMR0MxWXJObnhFbnU4aVZXVXZDQTZlTFJKaE1vaXEwZVdCUDluMWpmd2E2MEJDZ1VMMURlaks2dFNHTExKMWxpenVhUkFEUmhkK3NvanpJcFo4UHFpNERMUWdtTnlTcHBsRWxhY1oyNzFuUnBQeDV1bVVIaURDc2JJdFRHSHA1QnhqaEg3WlZRYjNpRDdlRGRIYUdoQ1orTTdOcFdqSXJmMlEwYk82NDZES09aR1U9IiwibWFjIjoiMzI5NTlhZDMyM2M4M2YzNTIxMDc1OTA2ZjYwMGU5NGNjM2Y2NmY2MDBlZGI3ZDg2ZDJjZDMwNDIxYTQ4NDNhZCJ9; XSRF-TOKEN=eyJpdiI6Im1wYkRaMTFHbWNEd2lZQ1V0NWZuMnc9PSIsInZhbHVlIjoiZ1IwNWdpVFhyMDhISUtLa24rV2cyZzhLbEM1ZUZDTThBSnZaczNwNXZiaHFoZzNraVpPMTVIa2RXK3UxR2RRS0VoTWQzeEI4RnlPOGtyNzdlNlkrM2c9PSIsIm1hYyI6IjJkN2I3OWNiZDMwMzc2OTczZGZmZjAwYTQzZmNhNDk1NTdkODZlYmE5NmUzZDQ5ODYzMmZjYmZmMmYyZTgzMDkifQ%3D%3D; laravel_session=eyJpdiI6ImtqenZcLzJnUDFram1UQ1dxZ3VWem5nPT0iLCJ2YWx1ZSI6InJrVVhRVGhaT0ZZeWRMejl6N0V1TUZIeDhmRHdVTTVIVndhQ0VtQ0hFOGUzVWVXNkY1SGlFbVwvVGkzbHkrV0hieXBOVmlCM3VBdFh1MjFnTVlrS2RYQT09IiwibWFjIjoiMDZmMTY1NTFkMTA3OGZkMGUxNzlhZmUyMjg0ZTQwYWQ3YzExNGRiODgyNTAwMjJhNGViYjNmNDZlMmE0NGViMyJ9",
+            },
+          };
+
+          axios(config)
+            .then(function (response) {
+              console.log("otp response", JSON.stringify(response.data));
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
         }
       });
     return data;
@@ -117,20 +152,30 @@ const CreateRental = (props) => {
   // Handle OTP Submit
   const handleOtpSubmit = async (e) => {
     const { values, isValid } = await otpFormRef.current.doSubmit(e);
-
     if (isValid) {
-      setOtpValidated(true);
-      //   handleSave(values);
+      const valid = validateOtpValue(values && values.otp);
+      if (valid == true) {
+        setOtpValidated(true);
+      } else {
+        toastMessage.trigger({
+          type: "error",
+          content: "Please enter the correct OTP",
+        });
+        setOtpValidated(false);
+      }
     }
+  };
+
+  const validateOtpValue = (otp) => {
+    const data = generatedOtp == otp ? true : false;
+    return data;
   };
 
   // Handle Customer Submit
   const handleCustomerFormSubmit = async (e) => {
     const { values, isValid } = await customerFormRef.current.doSubmit(e);
-    console.log("values ------>", values);
 
     if (isValid) {
-      console.log("values ---->", values);
       createRental(values);
     }
   };
@@ -145,6 +190,7 @@ const CreateRental = (props) => {
 
   // Create Rental data
   const createRental = (values) => {
+    setIsLoading(true);
     const data = new FormData();
 
     if (existingCustomer) {
@@ -196,6 +242,8 @@ const CreateRental = (props) => {
       data.append("added_by", values && values.added_by);
     }
     dispatch(API.addRentals(data, history, {}));
+    setIsLoading(false);
+    history.push(`/rentals`);
   };
   const mobileinitialValues = {
     mobile_no: mobileNumber ? mobileNumber : "",
@@ -367,6 +415,10 @@ const CreateRental = (props) => {
       },
     ],
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
