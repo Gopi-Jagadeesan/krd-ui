@@ -54,7 +54,7 @@ export function fetchCustomerDetail() {
     dispatch(requestCustomerDetail());
 
     return apiClient
-      .get(`${endpoints().customerAPI}`)
+      .get(`${endpoints().customersAPI}`)
       .then((response) => {
         dispatch(receiveCustomerDetail(response.data));
       })
@@ -113,10 +113,10 @@ export function customerCreateError(error) {
 export function addCustomer(data, history) {
   return (dispatch) => {
     return apiClient
-      .post(`${endpoints().customerAPI}`, data)
+      .post(`${endpoints().customersAPI}`, data)
       .then((response) => {
         dispatch(
-          fetchList("customer", `${endpoints().customerAPI}/search`, 1, 10)
+          fetchList("customer", `${endpoints().customersAPI}/search`, 1, 10)
         );
         let successMessage;
         if (response && response.data) {
@@ -187,10 +187,10 @@ export function customerDeleteError(error) {
 export function deleteCustomer(id) {
   return (dispatch) => {
     return apiClient
-      .delete(`${endpoints().customerAPI}/${id}`)
+      .delete(`${endpoints().customersAPI}/${id}`)
       .then((response) => {
         dispatch(
-          fetchList("customer", `${endpoints().customerAPI}/search`, 1, 10)
+          fetchList("customer", `${endpoints().customersAPI}/search`, 1, 10)
         );
         let successMessage;
         if (response && response.data) {
@@ -256,10 +256,10 @@ export function customerUpdateError(error) {
 export function updateCustomer(data) {
   return (dispatch) => {
     return apiClient
-      .put(`${endpoints().customerAPI}/update`, data)
+      .put(`${endpoints().customersAPI}/update`, data)
       .then((response) => {
         dispatch(
-          fetchList("customer", `${endpoints().customerAPI}/search`, 1, 10)
+          fetchList("customer", `${endpoints().customersAPI}/search`, 1, 10)
         );
         let successMessage;
         if (response && response.data) {

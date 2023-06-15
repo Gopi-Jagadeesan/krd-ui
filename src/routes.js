@@ -11,6 +11,7 @@ import PublicPage from "./pages/publicPages/PublicPage";
 import CreateRental from "./pages/rentals/CreateRental";
 import RentalDetails from "./pages/rentals/RentalDetails";
 import EditRentals from "./pages/rentals/EditRentals";
+import CustomerDetail from "./pages/customer/CustomerDetail";
 
 // List of routes
 const routes = [
@@ -37,6 +38,12 @@ const routes = [
     exact: true,
     name: "CustomerList",
     component: CustomerList,
+  },
+  {
+    path: "/customers/details/:id",
+    exact: true,
+    name: "CustomerDetail",
+    component: CustomerDetail,
   },
   {
     path: "/rentals",

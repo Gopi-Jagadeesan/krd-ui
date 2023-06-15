@@ -40,6 +40,7 @@ import PublicPage from "./pages/publicPages/PublicPage";
 import CreateRental from "./pages/rentals/CreateRental";
 import RentalDetails from "./pages/rentals/RentalDetails";
 import EditRentals from "./pages/rentals/EditRentals";
+import CustomerDetail from "./pages/customer/CustomerDetail";
 
 const loading = () => (
   <div className="animated fadeIn pt-3 text-center">Loading...</div>
@@ -148,6 +149,14 @@ class App extends Component {
                   component={CustomerList}
                   settings={settings}
                 />
+                <ProjectLayout
+                  exact
+                  name="CustomerDetail"
+                  path={"/customers/details/:id"}
+                  component={CustomerDetail}
+                  settings={settings}
+                />
+
                 <ProjectLayout
                   exact
                   name="Rental"
