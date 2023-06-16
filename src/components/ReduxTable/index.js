@@ -454,14 +454,14 @@ class ReduxTable extends React.Component {
                       onChange={this.onChange.bind(this)}
                     />
                   )}
-                  {sortByOptions && (
+                  {/* {sortByOptions && (
                     <FwSelect
                       placeholder="Sort By"
                       onFwChange={(e) => {
                         this.handleSortByChange(e.target.value);
                       }}
                       options={sortByOptions}></FwSelect>
-                  )}
+                  )} */}
                 </div>
               ) : (
                 <Row className="mb-3">
