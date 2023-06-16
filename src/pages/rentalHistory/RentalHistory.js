@@ -18,10 +18,19 @@ import PageTitle from "../../components/PageTitle";
 //Config
 import { endpoints } from "../../configs";
 import { Col, Row } from "reactstrap";
+import * as API from "../rentals/Action";
 
 const RentalHistory = (props) => {
   const { history } = props;
+
+  const [currentDeleteData, setCurrentDeleteData] = useState();
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  // Dispach
+  const dispatch = useDispatch();
+
   const status = "closed";
+
   // Sort by options
   const sortByOption = [
     {
@@ -30,8 +39,41 @@ const RentalHistory = (props) => {
     },
   ];
 
+  // Toggle delete modal
+  const deleteToggle = () => {
+    setDeleteModal(!deleteModal);
+  };
+
+  // Vehicle delete function
+  const rentalDelete = () => {
+    dispatch(API.deleteRentals(currentDeleteData.id, status, {}));
+    setDeleteModal(false);
+    setCurrentDeleteData("");
+  };
+
   return (
     <>
+      {/* Delete Vehicle Modal Starts */}
+      <FwModal
+        id="composition"
+        size="small"
+        submit-color="danger"
+        submit-text="Delete"
+        submit={rentalDelete}
+        onFwClose={deleteToggle}
+        isOpen={deleteModal}>
+        <FwModalTitle>
+          <span>Delete Vehicle</span>
+        </FwModalTitle>
+        <FwModalContent>
+          <span>
+            Are you sure you want to delete{" "}
+            <b>{currentDeleteData && currentDeleteData.customer_name}</b> ?
+          </span>
+        </FwModalContent>
+      </FwModal>
+      {/* Delete Vehicle Modal Ends */}
+
       {/*Redux table  */}
       <PageTitle label="Rental History" />
 
@@ -83,7 +125,7 @@ const RentalHistory = (props) => {
           <ReduxColumn minWidth="70px" field="payment_mode">
             Payment mode
           </ReduxColumn>
-          {/* <ReduxColumn
+          <ReduxColumn
             minWidth="100px"
             field="Action"
             className="action-column"
@@ -92,7 +134,7 @@ const RentalHistory = (props) => {
               <div className="text-center">
                 {row.role !== "Super Admin" && (
                   <>
-                    <span
+                    {/* <span
                       className="text-danger cursor-pointer mr-2"
                       onClick={() => {
                         setCurrentRowData(row);
@@ -110,7 +152,7 @@ const RentalHistory = (props) => {
                       <FwButton size="icon">
                         <FwIcon name="edit" color="white"></FwIcon>
                       </FwButton>
-                    </span>
+                    </span> */}
                     <span
                       className="text-danger cursor-pointer"
                       onClick={() => {
@@ -126,7 +168,7 @@ const RentalHistory = (props) => {
               </div>
             )}>
             Action
-          </ReduxColumn> */}
+          </ReduxColumn>
         </ReduxTable>
       </div>
     </>

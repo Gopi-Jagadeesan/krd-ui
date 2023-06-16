@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   FwButton,
@@ -19,6 +19,7 @@ import * as API from "./Action";
 
 //Config
 import { endpoints } from "../../configs";
+import { apiClient } from "../../apiClient";
 
 const Rental = (props) => {
   const { history } = props;
@@ -26,6 +27,9 @@ const Rental = (props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [currentRowData, setCurrentRowData] = useState();
   const [closeRentalModal, setCloseRentalModal] = useState(false);
+  const [changeRentalModal, setChangeRentalModal] = useState(false);
+  const [vehicleOption, setVehicleOptions] = useState([]);
+
   const status = "notClosed";
 
   console.log("currentRowData ----->", currentRowData);
@@ -34,6 +38,7 @@ const Rental = (props) => {
 
   //useRef
   const closeRentalFormRef = useRef();
+  const changeRentalFormRef = useRef();
 
   // Closed by Options
   const closedByOptions = [
@@ -41,6 +46,40 @@ const Rental = (props) => {
     { value: "krishnan", text: "Krishnan" },
     { value: "bala", text: "Bala" },
   ];
+
+  // Get Vehicles List
+  useEffect(() => {
+    getVehicleList();
+  }, [props]);
+
+  // Get Vehicle options
+  const getVehicleList = async () => {
+    let data;
+    await apiClient
+      .get(`${endpoints().vehiclesAPI}/search`)
+      .then((response) => {
+        data = response.data.data;
+        if (data && data.length > 0) {
+          const vehicleOptions = [];
+          data
+            .sort((a, b) => parseFloat(a.sort) - parseFloat(b.sort))
+            .forEach((vehicleData) => {
+              if (vehicleData && vehicleData.status == "in") {
+                vehicleOptions.push({
+                  value: vehicleData.id,
+                  text: `${vehicleData.name ? vehicleData.name : ""} - ${
+                    vehicleData.reg_no
+                  } ${vehicleData.color ? vehicleData.color : ""} ${
+                    vehicleData.notes ? vehicleData.notes : ""
+                  }`,
+                });
+              }
+            });
+          setVehicleOptions(vehicleOptions);
+        }
+      });
+    return data;
+  };
 
   // Toggle delete modal
   const deleteToggle = () => {
@@ -50,6 +89,11 @@ const Rental = (props) => {
   // Toggle Close rental modal
   const toggleCloseRental = () => {
     setCloseRentalModal(!closeRentalModal);
+  };
+
+  // Toggle Close rental modal
+  const toggleChangeRental = () => {
+    setChangeRentalModal(!changeRentalModal);
   };
 
   // Sort by options
@@ -84,19 +128,50 @@ const Rental = (props) => {
     // window.location.reload(false);
   };
 
+  /**
+   * Close Rental
+   *
+   * @param values
+   */
+  const handleChangeRentalSave = (values) => {
+    console.log("values ------>", values);
+    const data = new FormData();
+    if (currentRowData) {
+      data.append("id", currentRowData && currentRowData.id);
+    }
+    if (values && values.vehicle_id !== undefined) {
+      data.append("vehicle_id", values && values.vehicle_id);
+    }
+    if (values && values.ending_km !== undefined) {
+      data.append("ending_km", values && values.ending_km);
+    }
+    dispatch(API.updateRentals(data, {}));
+    toggleChangeRental();
+    // window.location.reload(false);
+  };
+
   // Rental delete function
   const userDelete = () => {
-    dispatch(API.deleteRentals(currentDeleteData.id, {}));
+    dispatch(API.deleteRentals(currentDeleteData.id, status, {}));
     setDeleteModal(false);
     setCurrentDeleteData("");
   };
 
-  // Form submit function
+  // Close rental Form submit function
   const handleCloseRentalSubmit = async (e) => {
     const { values, isValid } = await closeRentalFormRef.current.doSubmit(e);
 
     if (isValid) {
       handleSave(values);
+    }
+  };
+
+  // Change rental form submit function
+  const handleChangeRentalSubmit = async (e) => {
+    const { values, isValid } = await changeRentalFormRef.current.doSubmit(e);
+
+    if (isValid) {
+      handleChangeRentalSave(values);
     }
   };
 
@@ -122,6 +197,32 @@ const Rental = (props) => {
         required: true,
         placeholder: "Select Closed By",
         choices: closedByOptions,
+      },
+    ],
+  };
+
+  // Change rental form
+  const changeRentalFormSchema = {
+    fields: [
+      {
+        id: "ending_km",
+        name: "ending_km",
+        label: "Ending Km",
+        type: "NUMBER",
+        position: 3,
+        required: true,
+        placeholder: "Enter Ending Km",
+        choices: [],
+      },
+      {
+        id: "vehicle_id",
+        name: "vehicle_id",
+        label: "Vehicle",
+        type: "DROPDOWN",
+        position: 3,
+        required: true,
+        placeholder: "Select Vehicle",
+        choices: vehicleOption,
       },
     ],
   };
@@ -152,6 +253,31 @@ const Rental = (props) => {
         </div>
       </FwModal>
       {/* Close Rental Modal Ends */}
+
+      {/* Change Rental Modal Starts */}
+      <FwModal
+        id="change-rental"
+        submitText="submitText"
+        hideFooter
+        onFwClose={toggleChangeRental}
+        isOpen={changeRentalModal}
+        titleText={"Change Rental"}>
+        <div>
+          <FwForm
+            formSchema={changeRentalFormSchema}
+            ref={changeRentalFormRef}></FwForm>
+          <FwButton color="secondary" onClick={toggleChangeRental}>
+            Cancel
+          </FwButton>
+          <FwButton
+            className="ml-2"
+            color="primary"
+            onClick={handleChangeRentalSubmit}>
+            Change Rental
+          </FwButton>
+        </div>
+      </FwModal>
+      {/* Change Rental Modal Ends */}
 
       {/* Delete Rental Modal Starts */}
       <FwModal
@@ -233,7 +359,7 @@ const Rental = (props) => {
             Payment mode
           </ReduxColumn>
           <ReduxColumn
-            minWidth="100px"
+            minWidth="130px"
             field="Action"
             className="action-column"
             disableOnClick
@@ -251,16 +377,17 @@ const Rental = (props) => {
                         <FwIcon name="close" color="white"></FwIcon>
                       </FwButton>
                     </span>
-                    {/* <span
+                    <span
                       className="text-danger cursor-pointer mr-2"
                       onClick={() => {
-                        history.push(`/edit-rental/${row.id}`);
+                        setCurrentRowData(row);
+                        setChangeRentalModal(true);
                       }}>
                       <FwButton size="icon">
                         <FwIcon name="edit" color="white"></FwIcon>
                       </FwButton>
-                    </span> */}
-                    {/* <span
+                    </span>
+                    <span
                       className="text-danger cursor-pointer"
                       onClick={() => {
                         setCurrentDeleteData(row);
@@ -269,7 +396,7 @@ const Rental = (props) => {
                       <FwButton size="icon">
                         <FwIcon name="delete" color="white"></FwIcon>
                       </FwButton>
-                    </span> */}
+                    </span>
                   </>
                 )}
               </div>

@@ -183,13 +183,18 @@ export function rentalsDeleteError(error) {
  * @param id
  * @returns {function(*): Promise<AxiosResponse<any>>}
  */
-export function deleteRentals(id) {
+export function deleteRentals(id, status) {
   return (dispatch) => {
     return apiClient
       .delete(`${endpoints().rentalsAPI}/${id}`)
       .then((response) => {
         dispatch(
-          fetchList("rentals", `${endpoints().rentalsAPI}/search`, 1, 10)
+          fetchList(
+            "rentals",
+            `${endpoints().rentalsAPI}/search/${status}`,
+            1,
+            10
+          )
         );
         let successMessage;
         if (response && response.data) {
@@ -271,6 +276,76 @@ export function closeRentals(data) {
       })
       .catch((error) => {
         dispatch(rentalsUpdateError(error));
+
+        if (isBadRequest(error)) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toastMessage.trigger({
+            type: "error",
+            content: errorMessage,
+          });
+          console.error(errorMessage);
+        }
+      });
+  };
+}
+
+/**
+ * Request for Change Rentals
+ */
+export function requestChangeRentals() {
+  return {
+    type: REQUEST_UPDATE_RENTALS,
+  };
+}
+
+/**
+ * Receive for Change Rentals
+ */
+export function receiveChangeRentals() {
+  return {
+    type: RECEIVE_UPDATE_RENTALS,
+  };
+}
+
+/**
+ * Receive for error Change Rentals
+ */
+export function rentalsChangeError(error) {
+  return {
+    type: RENTALS_UPDATE_ERROR,
+    error,
+  };
+}
+
+/**
+ * Change Rentals
+ *
+ * @param data
+ * @returns {function(*): Promise<AxiosResponse<any>>}
+ */
+export function updateRentals(data) {
+  return (dispatch) => {
+    return apiClient
+      .put(`${endpoints().rentalsAPI}`, data)
+      .then((response) => {
+        dispatch(
+          fetchList("rentals", `${endpoints().rentalsAPI}/search/rented`, 1, 10)
+        );
+        let successMessage;
+        if (response && response.data) {
+          successMessage = response.data.message;
+          toastMessage.trigger({
+            type: "success",
+            content: successMessage,
+          });
+        }
+      })
+      .catch((error) => {
+        dispatch(rentalsChangeError(error));
 
         if (isBadRequest(error)) {
           let errorMessage;

@@ -5,6 +5,8 @@ import Loader from "../../components/Loader";
 import { Card, CardBody, CardHeader, CardText, Col, Row } from "reactstrap";
 import cashImage from "../../assets/img/Paytm.jpg";
 import PageTitle from "../../components/PageTitle";
+import tempSymbol from "../../assets/img/download.png";
+
 const RentalDetails = (props) => {
   // Get id from URL
   let id = props.match.params.id;
@@ -207,16 +209,61 @@ const RentalDetails = (props) => {
                     {customerDetails.address}
                   </span>
                 </div>
+                <hr></hr>
+                <h5>Vehicle Details</h5>
+                <div>
+                  Name :{" "}
+                  <span className="font-weight-bold">
+                    {vehicleDetails.name}
+                  </span>
+                </div>
+                <div className="mt-2">
+                  Reg No :{" "}
+                  <span className="font-weight-bold">
+                    {vehicleDetails.reg_no}
+                  </span>
+                </div>
+                <div className="mt-2">
+                  Color :{" "}
+                  <span className="font-weight-bold">
+                    {vehicleDetails.color}
+                  </span>
+                </div>
+                <div className="mt-2">
+                  Notes :{" "}
+                  <span className="font-weight-bold">
+                    {vehicleDetails.notes}
+                  </span>
+                </div>
               </CardText>
             </CardBody>
           </Card>
         </Col>
       </Row>
       <Card className="my-2" color="info" outline>
-        <CardHeader>Vehicle Details</CardHeader>
+        <CardHeader>Customer Memorandum of Understanding</CardHeader>
         <CardBody>
           <CardText>
-            <Row>
+            <div>
+              1. The symbol should be checked and fed in the vehicle{" "}
+              <span className="font-weight-bold"> engine temperature</span> With
+              this the vehicle driver is responsible for any fault in the
+              vehicle.
+            </div>
+            <div>
+              2. The driver is solely responsible for carrying any illegal items
+              in the vahicle, or engaging in illegal activities.
+            </div>
+            <div>
+              3. The driver shall be responsible for all costs and consequences
+              of any accident/damage while traveling in the vehicle.
+            </div>
+            <div>
+              4. The rental contract of the vehicle is limited to 24 hours. If
+              it goes beyond that, the driver will have to pay the next 24 hours
+              of rent.
+            </div>
+            {/* <Row>
               <Col sm="3">
                 <div>
                   Name :{" "}
@@ -249,7 +296,7 @@ const RentalDetails = (props) => {
                   </span>
                 </div>
               </Col>
-            </Row>
+            </Row> */}
           </CardText>
         </CardBody>
       </Card>
