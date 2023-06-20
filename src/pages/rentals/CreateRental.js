@@ -457,9 +457,7 @@ const CreateRental = (props) => {
                       name="customer_name"
                       label="Customer Name"
                       placeholder="Enter Customer Name..."
-                      error=""
                       required={true}
-                      fontBolded
                     />
                   </div>
                   <div>
@@ -467,9 +465,7 @@ const CreateRental = (props) => {
                       name="alternate_no"
                       label="Alternate Number"
                       placeholder="Enter Alternate Number..."
-                      error=""
                       required={true}
-                      fontBolded
                     />
                   </div>
                   <div>
@@ -477,9 +473,7 @@ const CreateRental = (props) => {
                       name="address"
                       label="Address"
                       placeholder="Enter Address..."
-                      error=""
                       required={true}
-                      fontBolded
                     />
                   </div>
                   <div>
@@ -487,9 +481,7 @@ const CreateRental = (props) => {
                       name="proof_no"
                       label="Proof Number"
                       placeholder="Enter Proof Number..."
-                      error=""
                       required={true}
-                      fontBolded
                     />
                   </div>
                   <div>
@@ -501,7 +493,6 @@ const CreateRental = (props) => {
                       options={proofOptions}
                       required={true}
                       isMulti
-                      fontBolded
                     />
                   </div>
                   <div>
@@ -509,9 +500,8 @@ const CreateRental = (props) => {
                       name="vehicle"
                       label="Vehicle"
                       placeholder="Select Vehicle..."
-                      error=""
+                      isSearchable
                       required={true}
-                      fontBolded
                       options={vehicleOption}
                     />
                   </div>
@@ -520,9 +510,9 @@ const CreateRental = (props) => {
                       name="start_date"
                       label="Start Date"
                       placeholder="Select Start Date..."
-                      error=""
+                      
                       required={true}
-                      fontBolded
+                      
                     />
                   </div> */}
                   <div>
@@ -530,9 +520,7 @@ const CreateRental = (props) => {
                       name="expected_delivery"
                       label="Expected Delivery"
                       placeholder="Enter Expected Delivery..."
-                      error=""
                       required={true}
-                      fontBolded
                     />
                   </div>
                   <div>
@@ -540,9 +528,7 @@ const CreateRental = (props) => {
                       name="advance_amount"
                       label="Advance Amount"
                       placeholder="Enter Advance Amount..."
-                      error=""
                       required={true}
-                      fontBolded
                     />
                   </div>
                   <div>
@@ -550,9 +536,7 @@ const CreateRental = (props) => {
                       name="per_day_rent"
                       label="Per day rent"
                       placeholder="Enter Per day rent..."
-                      error=""
                       required={true}
-                      fontBolded
                     />
                   </div>
                   <div>
@@ -560,9 +544,7 @@ const CreateRental = (props) => {
                       name="starting_km"
                       label="Starting Km"
                       placeholder="Enter Starting Km..."
-                      error=""
                       required={true}
-                      fontBolded
                     />
                   </div>
                   <div>
@@ -570,9 +552,7 @@ const CreateRental = (props) => {
                       name="payment_mode"
                       label="Payment mode"
                       placeholder="Select Payment mode..."
-                      error=""
                       required={true}
-                      fontBolded
                       options={paymentOptions}
                     />
                   </div>
@@ -581,9 +561,7 @@ const CreateRental = (props) => {
                       name="added_by"
                       label="Added By"
                       placeholder="Select Added By..."
-                      error=""
                       required={true}
-                      fontBolded
                       options={addedByOptions}
                     />
                   </div>
