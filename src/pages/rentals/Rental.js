@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   FwButton,
-  FwForm,
   FwIcon,
   FwModal,
   FwModalContent,
@@ -20,6 +19,10 @@ import * as API from "./Action";
 //Config
 import { endpoints } from "../../configs";
 import { apiClient } from "../../apiClient";
+import Form from "../../components/Form";
+import { Button } from "reactstrap";
+import Select from "../../components/Select";
+import Number from "../../components/Number";
 
 const Rental = (props) => {
   const { history } = props;
@@ -36,15 +39,11 @@ const Rental = (props) => {
   // Dispach
   const dispatch = useDispatch();
 
-  //useRef
-  const closeRentalFormRef = useRef();
-  const changeRentalFormRef = useRef();
-
   // Closed by Options
   const closedByOptions = [
-    { value: "kannan", text: "Kannan" },
-    { value: "krishnan", text: "Krishnan" },
-    { value: "bala", text: "Bala" },
+    { value: "kannan", label: "Kannan" },
+    { value: "krishnan", label: "Krishnan" },
+    { value: "bala", label: "Bala" },
   ];
 
   // Get Vehicles List
@@ -67,7 +66,7 @@ const Rental = (props) => {
               if (vehicleData && vehicleData.status == "in") {
                 vehicleOptions.push({
                   value: vehicleData.id,
-                  text: `${vehicleData.name ? vehicleData.name : ""} - ${
+                  label: `${vehicleData.name ? vehicleData.name : ""} - ${
                     vehicleData.reg_no
                   } ${vehicleData.color ? vehicleData.color : ""} ${
                     vehicleData.notes ? vehicleData.notes : ""
@@ -118,7 +117,10 @@ const Rental = (props) => {
       data.append("vehicle_id", currentRowData.vehicle_id);
     }
     if (values && values.closed_by !== undefined) {
-      data.append("closed_by", values && values.closed_by);
+      data.append(
+        "closed_by",
+        values && values.closed_by && values.closed_by.value
+      );
     }
     if (values && values.ending_km !== undefined) {
       data.append("ending_km", values && values.ending_km);
@@ -134,13 +136,15 @@ const Rental = (props) => {
    * @param values
    */
   const handleChangeRentalSave = (values) => {
-    console.log("values ------>", values);
     const data = new FormData();
     if (currentRowData) {
       data.append("id", currentRowData && currentRowData.id);
     }
     if (values && values.vehicle_id !== undefined) {
-      data.append("vehicle_id", values && values.vehicle_id);
+      data.append(
+        "vehicle_id",
+        values && values.vehicle_id && values.vehicle_id.value
+      );
     }
     if (values && values.ending_km !== undefined) {
       data.append("ending_km", values && values.ending_km);
@@ -157,76 +161,6 @@ const Rental = (props) => {
     setCurrentDeleteData("");
   };
 
-  // Close rental Form submit function
-  const handleCloseRentalSubmit = async (e) => {
-    const { values, isValid } = await closeRentalFormRef.current.doSubmit(e);
-
-    if (isValid) {
-      handleSave(values);
-    }
-  };
-
-  // Change rental form submit function
-  const handleChangeRentalSubmit = async (e) => {
-    const { values, isValid } = await changeRentalFormRef.current.doSubmit(e);
-
-    if (isValid) {
-      handleChangeRentalSave(values);
-    }
-  };
-
-  // Close rental form
-  const closeRentalFormSchema = {
-    fields: [
-      {
-        id: "ending_km",
-        name: "ending_km",
-        label: "Ending Km",
-        type: "NUMBER",
-        position: 3,
-        required: true,
-        placeholder: "Enter Ending Km",
-        choices: [],
-      },
-      {
-        id: "closed_by",
-        name: "closed_by",
-        label: "Closed By",
-        type: "DROPDOWN",
-        position: 3,
-        required: true,
-        placeholder: "Select Closed By",
-        choices: closedByOptions,
-      },
-    ],
-  };
-
-  // Change rental form
-  const changeRentalFormSchema = {
-    fields: [
-      {
-        id: "ending_km",
-        name: "ending_km",
-        label: "Ending Km",
-        type: "NUMBER",
-        position: 3,
-        required: true,
-        placeholder: "Enter Ending Km",
-        choices: [],
-      },
-      {
-        id: "vehicle_id",
-        name: "vehicle_id",
-        label: "Vehicle",
-        type: "DROPDOWN",
-        position: 3,
-        required: true,
-        placeholder: "Select Vehicle",
-        choices: vehicleOption,
-      },
-    ],
-  };
-
   return (
     <>
       {/* Close Rental Modal Starts */}
@@ -238,18 +172,44 @@ const Rental = (props) => {
         isOpen={closeRentalModal}
         titleText={"Close Rental"}>
         <div>
-          <FwForm
-            formSchema={closeRentalFormSchema}
-            ref={closeRentalFormRef}></FwForm>
-          <FwButton color="secondary" onClick={toggleCloseRental}>
-            Cancel
-          </FwButton>
-          <FwButton
-            className="ml-2"
-            color="primary"
-            onClick={handleCloseRentalSubmit}>
-            Close Rental
-          </FwButton>
+          <Form
+            enableReinitialize={true}
+            initialValues={{}}
+            onSubmit={(values) => {
+              handleSave(values);
+            }}>
+            <div className="form-group mt-2 mb-3">
+              <div>
+                <Number
+                  name="ending_km"
+                  label="Ending Km"
+                  placeholder="Enter Ending Km..."
+                  error=""
+                  required={true}
+                  fontBolded
+                />
+              </div>
+              <div>
+                <Select
+                  name="closed_by"
+                  label="Closed By"
+                  placeholder="Select Closed By..."
+                  error=""
+                  required={true}
+                  fontBolded
+                  options={closedByOptions}
+                />
+              </div>
+            </div>
+
+            <div className="container-fluid">
+              <div className="col-sm-12 text-center">
+                <Button type="submit" className="h6-5-important">
+                  Save
+                </Button>
+              </div>
+            </div>
+          </Form>
         </div>
       </FwModal>
       {/* Close Rental Modal Ends */}
@@ -263,18 +223,44 @@ const Rental = (props) => {
         isOpen={changeRentalModal}
         titleText={"Change Rental"}>
         <div>
-          <FwForm
-            formSchema={changeRentalFormSchema}
-            ref={changeRentalFormRef}></FwForm>
-          <FwButton color="secondary" onClick={toggleChangeRental}>
-            Cancel
-          </FwButton>
-          <FwButton
-            className="ml-2"
-            color="primary"
-            onClick={handleChangeRentalSubmit}>
-            Change Rental
-          </FwButton>
+          <Form
+            enableReinitialize={true}
+            initialValues={{}}
+            onSubmit={(values) => {
+              handleChangeRentalSave(values);
+            }}>
+            <div className="form-group mt-2 mb-3">
+              <div>
+                <Number
+                  name="ending_km"
+                  label="Ending Km"
+                  placeholder="Enter Ending Km..."
+                  error=""
+                  required={true}
+                  fontBolded
+                />
+              </div>
+              <div>
+                <Select
+                  name="vehicle_id"
+                  label="Vehicle"
+                  placeholder="Select Vehicle..."
+                  error=""
+                  required={true}
+                  fontBolded
+                  options={vehicleOption}
+                />
+              </div>
+            </div>
+
+            <div className="container-fluid">
+              <div className="col-sm-12 text-center">
+                <Button type="submit" className="h6-5-important">
+                  Save
+                </Button>
+              </div>
+            </div>
+          </Form>
         </div>
       </FwModal>
       {/* Change Rental Modal Ends */}

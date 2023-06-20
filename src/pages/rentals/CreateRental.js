@@ -1,14 +1,11 @@
 import {
   FwButton,
   FwForm,
-  FwFormControl,
   FwModal,
-  FwSelect,
-  FwSelectOption,
   ToastController,
 } from "@freshworks/crayons/react";
 import React, { useEffect, useRef, useState } from "react";
-import { Card, CardText, CardTitle } from "reactstrap";
+import { Button, Card, CardText, CardTitle } from "reactstrap";
 //Config
 import { endpoints } from "../../configs";
 import { apiClient } from "../../apiClient";
@@ -18,6 +15,11 @@ import * as API from "./Action";
 import { useDispatch } from "react-redux";
 import Loader from "../../components/Loader";
 import axios from "axios";
+import Form from "../../components/Form";
+import Text from "../../components/Text";
+import Number from "../../components/Number";
+import Select from "../../components/Select";
+import MultiSelect from "../../components/Multiselect";
 
 // Initialize toast message
 const toastMessage = ToastController({ position: "top-center" });
@@ -36,7 +38,6 @@ const CreateRental = (props) => {
   // Use Ref
   const mobileFormRef = useRef();
   const otpFormRef = useRef();
-  const customerFormRef = useRef();
 
   // dispatch
   const dispatch = useDispatch();
@@ -48,26 +49,26 @@ const CreateRental = (props) => {
 
   // Proof Options
   const proofOptions = [
-    { value: "aadharCard", text: "Aadhar" },
-    { value: "panCard", text: "Pan Card" },
-    { value: "rationCard", text: "Ration Card" },
-    { value: "drivingLicense", text: "Driving License" },
-    { value: "rcCard", text: "RC book" },
-    { value: "collegeId", text: "College ID" },
-    { value: "workId", text: "Work ID" },
+    { value: "aadharCard", label: "Aadhar" },
+    { value: "panCard", label: "Pan Card" },
+    { value: "rationCard", label: "Ration Card" },
+    { value: "drivingLicense", label: "Driving License" },
+    { value: "rcCard", label: "RC book" },
+    { value: "collegeId", label: "College ID" },
+    { value: "workId", label: "Work ID" },
   ];
 
   // Added by Options
   const addedByOptions = [
-    { value: "kannan", text: "Kannan" },
-    { value: "krishnan", text: "Krishnan" },
-    { value: "bala", text: "Bala" },
+    { value: "kannan", label: "Kannan" },
+    { value: "krishnan", label: "Krishnan" },
+    { value: "bala", label: "Bala" },
   ];
 
   // Payment method Options
   const paymentOptions = [
-    { value: "cash", text: "Cash" },
-    { value: "paytm", text: "Paytm" },
+    { value: "cash", label: "Cash" },
+    { value: "paytm", label: "Paytm" },
   ];
 
   // Get Vehicle options
@@ -85,7 +86,7 @@ const CreateRental = (props) => {
               if (vehicleData && vehicleData.status == "in") {
                 vehicleOptions.push({
                   value: vehicleData.id,
-                  text: `${vehicleData.name ? vehicleData.name : ""} - ${
+                  label: `${vehicleData.name ? vehicleData.name : ""} - ${
                     vehicleData.reg_no
                   } ${vehicleData.color ? vehicleData.color : ""} ${
                     vehicleData.notes ? vehicleData.notes : ""
@@ -172,67 +173,8 @@ const CreateRental = (props) => {
     return data;
   };
 
-  // Handle Customer Submit
-  const handleCustomerFormSubmit = async (e) => {
-    const { values } = await customerFormRef.current.doSubmit(e);
-
-    let isValid = !values.customer_name
-      ? customerFormRef.current.setFieldErrors({
-          customer_name: "Customer Name is required",
-        }) & false
-      : !values.alternate_no
-      ? customerFormRef.current.setFieldErrors({
-          alternate_no: "Alternate number is required",
-        }) & false
-      : !values.address
-      ? customerFormRef.current.setFieldErrors({
-          address: "Address is required",
-        }) & false
-      : !values.proof_no
-      ? customerFormRef.current.setFieldErrors({
-          proof_no: "Proof number is required",
-        }) & false
-      : !values.proof_given
-      ? customerFormRef.current.setFieldErrors({
-          proof_given: "Proof given is required",
-        }) & false
-      : !values.vehicle
-      ? customerFormRef.current.setFieldErrors({
-          vehicle: "Vehicle is required",
-        }) & false
-      : !values.expected_delivery
-      ? customerFormRef.current.setFieldErrors({
-          expected_delivery: "Expected delivery is required",
-        }) & false
-      : !values.advance_amount
-      ? customerFormRef.current.setFieldErrors({
-          advance_amount: "Advance amount is required",
-        }) & false
-      : !values.per_day_rent
-      ? customerFormRef.current.setFieldErrors({
-          per_day_rent: "Per day rent is required",
-        }) & false
-      : !values.starting_km
-      ? customerFormRef.current.setFieldErrors({
-          starting_km: "Starting km is required",
-        }) & false
-      : !values.payment_mode
-      ? customerFormRef.current.setFieldErrors({
-          payment_mode: "Payment mode is required",
-        }) & false
-      : !values.added_by
-      ? customerFormRef.current.setFieldErrors({
-          added_by: "Added by is required",
-        }) & false
-      : true;
-
-    if (isValid) {
-      createRental(values);
-    }
-  };
-
   // Customer Initial Values
-  const customerInitialValues = {
+  const initialValues = {
     address: existingCustomer ? existingCustomer.address : "",
     alternate_no: existingCustomer ? existingCustomer.alternate_no : "",
     customer_name: existingCustomer ? existingCustomer.name : "",
@@ -240,7 +182,7 @@ const CreateRental = (props) => {
   };
 
   // Create Rental data
-  const createRental = (values) => {
+  const handleSave = (values) => {
     setIsLoading(true);
     const data = new FormData();
 
@@ -268,9 +210,18 @@ const CreateRental = (props) => {
     if (values && values.expected_delivery !== undefined) {
       data.append("expected_delivery", values && values.expected_delivery);
     }
-    if (values && values.proof_given !== undefined) {
-      data.append("proof_given", values && values.proof_given);
-    }
+    // Update proof given
+    let proofGiven = [];
+    values &&
+      values.proof_given &&
+      values.proof_given.length >= 0 &&
+      values.proof_given.forEach((data) => {
+        if (data) {
+          proofGiven.push({ id: data.value, name: data.label });
+        }
+      });
+    proofGiven = JSON.stringify(proofGiven);
+    data.append("proof_given", proofGiven ? proofGiven : "");
     if (values && values.proof_no !== undefined) {
       data.append("proof_no", values && values.proof_no);
     }
@@ -278,19 +229,25 @@ const CreateRental = (props) => {
       data.append("start_date", values && values.start_date);
     }
     if (values && values.vehicle !== undefined) {
-      data.append("vehicle", values && values.vehicle);
+      data.append("vehicle", values && values.vehicle && values.vehicle.value);
     }
     if (mobileNumber) {
       data.append("mobileNumber", mobileNumber);
     }
     if (values && values.payment_mode !== undefined) {
-      data.append("payment_mode", values && values.payment_mode);
+      data.append(
+        "payment_mode",
+        values && values.payment_mode && values.payment_mode.value
+      );
     }
     if (values && values.starting_km !== undefined) {
       data.append("starting_km", values && values.starting_km);
     }
     if (values && values.added_by !== undefined) {
-      data.append("added_by", values && values.added_by);
+      data.append(
+        "added_by",
+        values && values.added_by && values.added_by.value
+      );
     }
     dispatch(API.addRentals(data, history, {}));
     setIsLoading(false);
@@ -386,7 +343,7 @@ const CreateRental = (props) => {
                 {mobileNumber}
               </div>
               <div>OTP Validated &#10003; &#9989;</div>
-              <FwForm
+              {/* <FwForm
                 // formSchema={rentalFormSchema}
                 initialValues={customerInitialValues}
                 ref={customerFormRef}>
@@ -487,7 +444,159 @@ const CreateRental = (props) => {
                 hintText="Select singluar option">
                 <FwSelectOption value="1">Starks</FwSelectOption>
                 <FwSelectOption value="2">Lannisters</FwSelectOption>
-              </FwSelect>
+              </FwSelect> */}
+              <Form
+                enableReinitialize={true}
+                initialValues={initialValues}
+                onSubmit={(values) => {
+                  handleSave(values);
+                }}>
+                <div className="form-group mt-2 mb-3">
+                  <div>
+                    <Text
+                      name="customer_name"
+                      label="Customer Name"
+                      placeholder="Enter Customer Name..."
+                      error=""
+                      required={true}
+                      fontBolded
+                    />
+                  </div>
+                  <div>
+                    <Text
+                      name="alternate_no"
+                      label="Alternate Number"
+                      placeholder="Enter Alternate Number..."
+                      error=""
+                      required={true}
+                      fontBolded
+                    />
+                  </div>
+                  <div>
+                    <Text
+                      name="address"
+                      label="Address"
+                      placeholder="Enter Address..."
+                      error=""
+                      required={true}
+                      fontBolded
+                    />
+                  </div>
+                  <div>
+                    <Text
+                      name="proof_no"
+                      label="Proof Number"
+                      placeholder="Enter Proof Number..."
+                      error=""
+                      required={true}
+                      fontBolded
+                    />
+                  </div>
+                  <div>
+                    <MultiSelect
+                      name="proof_given"
+                      label="Proof Given"
+                      placeholder="Select Proof Given..."
+                      error="proof given is required"
+                      options={proofOptions}
+                      required={true}
+                      isMulti
+                      fontBolded
+                    />
+                  </div>
+                  <div>
+                    <Select
+                      name="vehicle"
+                      label="Vehicle"
+                      placeholder="Select Vehicle..."
+                      error=""
+                      required={true}
+                      fontBolded
+                      options={vehicleOption}
+                    />
+                  </div>
+                  {/* <div>
+                    <Text
+                      name="start_date"
+                      label="Start Date"
+                      placeholder="Select Start Date..."
+                      error=""
+                      required={true}
+                      fontBolded
+                    />
+                  </div> */}
+                  <div>
+                    <Number
+                      name="expected_delivery"
+                      label="Expected Delivery"
+                      placeholder="Enter Expected Delivery..."
+                      error=""
+                      required={true}
+                      fontBolded
+                    />
+                  </div>
+                  <div>
+                    <Number
+                      name="advance_amount"
+                      label="Advance Amount"
+                      placeholder="Enter Advance Amount..."
+                      error=""
+                      required={true}
+                      fontBolded
+                    />
+                  </div>
+                  <div>
+                    <Number
+                      name="per_day_rent"
+                      label="Per day rent"
+                      placeholder="Enter Per day rent..."
+                      error=""
+                      required={true}
+                      fontBolded
+                    />
+                  </div>
+                  <div>
+                    <Number
+                      name="starting_km"
+                      label="Starting Km"
+                      placeholder="Enter Starting Km..."
+                      error=""
+                      required={true}
+                      fontBolded
+                    />
+                  </div>
+                  <div>
+                    <Select
+                      name="payment_mode"
+                      label="Payment mode"
+                      placeholder="Select Payment mode..."
+                      error=""
+                      required={true}
+                      fontBolded
+                      options={paymentOptions}
+                    />
+                  </div>
+                  <div>
+                    <Select
+                      name="added_by"
+                      label="Added By"
+                      placeholder="Select Added By..."
+                      error=""
+                      required={true}
+                      fontBolded
+                      options={addedByOptions}
+                    />
+                  </div>
+                </div>
+
+                <div className="container-fluid">
+                  <div className="col-sm-12 text-center">
+                    <Button type="submit" className="h6-5-important">
+                      Save
+                    </Button>
+                  </div>
+                </div>
+              </Form>
             </>
           )}
         </CardText>

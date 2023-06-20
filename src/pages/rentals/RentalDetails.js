@@ -3,24 +3,16 @@ import { endpoints } from "../../configs";
 import { apiClient } from "../../apiClient";
 import Loader from "../../components/Loader";
 import { Card, CardBody, CardHeader, CardText, Col, Row } from "reactstrap";
-import cashImage from "../../assets/img/Paytm.jpg";
 import PageTitle from "../../components/PageTitle";
-import tempSymbol from "../../assets/img/download.png";
 
 const RentalDetails = (props) => {
   // Get id from URL
   let id = props.match.params.id;
 
-  const { history } = props;
-
   const [rentalDetails, setRentalDetails] = useState({});
   const [vehicleDetails, setVehicleDetails] = useState({});
   const [customerDetails, setCustomerDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log("rentalDetails ----->", rentalDetails);
-  console.log("vehicleDetails ----->", vehicleDetails);
-  console.log("customerDetails ----->", customerDetails);
 
   // Get rental details initially
   useEffect(() => {
@@ -84,14 +76,7 @@ const RentalDetails = (props) => {
 
   return (
     <div>
-      <PageTitle
-        label="Rentals Details"
-        normalButton
-        // buttonHandler={() => {
-        //   history.push(`/edit-rental/${id}`);
-        // }}
-        // buttonLabel="Edit"
-      />
+      <PageTitle label="Rentals Details" normalButton />
       <Row>
         <Col sm="7">
           <Card className="my-2" color="info" outline>
@@ -263,40 +248,6 @@ const RentalDetails = (props) => {
               it goes beyond that, the driver will have to pay the next 24 hours
               of rent.
             </div>
-            {/* <Row>
-              <Col sm="3">
-                <div>
-                  Name :{" "}
-                  <span className="font-weight-bold">
-                    {vehicleDetails.name}
-                  </span>
-                </div>
-              </Col>
-              <Col sm="3">
-                <div className="mt-2">
-                  Reg No :{" "}
-                  <span className="font-weight-bold">
-                    {vehicleDetails.reg_no}
-                  </span>
-                </div>
-              </Col>
-              <Col sm="3">
-                <div className="mt-2">
-                  Color :{" "}
-                  <span className="font-weight-bold">
-                    {vehicleDetails.color}
-                  </span>
-                </div>
-              </Col>
-              <Col sm="3">
-                <div className="mt-2">
-                  Notes :{" "}
-                  <span className="font-weight-bold">
-                    {vehicleDetails.notes}
-                  </span>
-                </div>
-              </Col>
-            </Row> */}
           </CardText>
         </CardBody>
       </Card>
