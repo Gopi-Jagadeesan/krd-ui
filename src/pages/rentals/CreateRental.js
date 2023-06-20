@@ -1,13 +1,12 @@
 import {
   FwButton,
-  FwButtonGroup,
   FwForm,
   FwFormControl,
   FwModal,
   ToastController,
 } from "@freshworks/crayons/react";
 import React, { useEffect, useRef, useState } from "react";
-import { Card, CardText, CardTitle, Col, Row } from "reactstrap";
+import { Card, CardText, CardTitle } from "reactstrap";
 //Config
 import { endpoints } from "../../configs";
 import { apiClient } from "../../apiClient";
@@ -173,7 +172,57 @@ const CreateRental = (props) => {
 
   // Handle Customer Submit
   const handleCustomerFormSubmit = async (e) => {
-    const { values, isValid } = await customerFormRef.current.doSubmit(e);
+    const { values } = await customerFormRef.current.doSubmit(e);
+
+    let isValid = !values.customer_name
+      ? customerFormRef.current.setFieldErrors({
+        customer_name: "Customer Name is required",
+      }) & false
+      : !values.alternate_no
+        ? customerFormRef.current.setFieldErrors({
+          alternate_no: "Alternate number is required",
+        }) & false
+        : !values.address
+          ? customerFormRef.current.setFieldErrors({
+            address: "Address is required",
+          }) & false
+          : !values.proof_no
+            ? customerFormRef.current.setFieldErrors({
+              proof_no: "Proof number is required",
+            }) & false
+            : !values.proof_given
+              ? customerFormRef.current.setFieldErrors({
+                proof_given: "Proof given is required",
+              }) & false
+              : !values.vehicle
+                ? customerFormRef.current.setFieldErrors({
+                  vehicle: "Vehicle is required",
+                }) & false
+                : !values.expected_delivery
+                  ? customerFormRef.current.setFieldErrors({
+                    expected_delivery: "Expected delivery is required",
+                  }) & false
+                  : !values.advance_amount
+                    ? customerFormRef.current.setFieldErrors({
+                      advance_amount: "Advance amount is required",
+                    }) & false
+                    : !values.per_day_rent
+                      ? customerFormRef.current.setFieldErrors({
+                        per_day_rent: "Per day rent is required",
+                      }) & false
+                      : !values.starting_km
+                        ? customerFormRef.current.setFieldErrors({
+                          starting_km: "Starting km is required",
+                        }) & false
+                        : !values.payment_mode
+                          ? customerFormRef.current.setFieldErrors({
+                            payment_mode: "Payment mode is required",
+                          }) & false
+                          : !values.added_by
+                            ? customerFormRef.current.setFieldErrors({
+                              added_by: "Added by is required",
+                            }) & false
+                            : true;
 
     if (isValid) {
       createRental(values);
@@ -281,141 +330,6 @@ const CreateRental = (props) => {
     ],
   };
 
-  // Rental schema
-  const rentalFormSchema = {
-    fields: [
-      {
-        id: "customer_name",
-        name: "customer_name",
-        label: "Customer Name",
-        type: "TEXT",
-        position: 3,
-        required: true,
-        placeholder: "Enter Customer Name",
-        choices: [],
-      },
-      {
-        id: "alternate_no",
-        name: "alternate_no",
-        label: "Alternate Number",
-        type: "NUMBER",
-        position: 3,
-        required: true,
-        placeholder: "Enter Alternate Number",
-        choices: [],
-      },
-      {
-        id: "address",
-        name: "address",
-        label: "Address",
-        type: "TEXT",
-        position: 3,
-        required: true,
-        placeholder: "Enter Address",
-        choices: [],
-      },
-      {
-        id: "proof_no",
-        name: "proof_no",
-        label: "Proof Number",
-        type: "TEXT",
-        position: 3,
-        required: true,
-        placeholder: "Enter Proof Number",
-        choices: [],
-      },
-      {
-        id: "proof_given",
-        name: "proof_given",
-        label: "Proof Given",
-        type: "MULTI_SELECT",
-        position: 3,
-        required: true,
-        placeholder: "Select Proof Given",
-        choices: proofOptions,
-      },
-      {
-        id: "vehicle",
-        name: "vehicle",
-        label: "Vehicle",
-        type: "DROPDOWN",
-        position: 3,
-        required: true,
-        placeholder: "Select Vehicle",
-        choices: vehicleOption,
-      },
-      {
-        id: "start_date",
-        name: "start_date",
-        label: "Start Date",
-        type: "DATE_TIME",
-        position: 3,
-        placeholder: "Select Start Date",
-        choices: [],
-      },
-      {
-        id: "expected_delivery",
-        name: "expected_delivery",
-        label: "Expected Delivery",
-        type: "NUMBER",
-        position: 3,
-        required: true,
-        placeholder: "Enter Expected Delivery",
-        choices: [],
-      },
-      {
-        id: "advance_amount",
-        name: "advance_amount",
-        label: "Advance Amount",
-        type: "NUMBER",
-        position: 3,
-        required: true,
-        placeholder: "Enter Advance Amount",
-        choices: [],
-      },
-      {
-        id: "per_day_rent",
-        name: "per_day_rent",
-        label: "Per day rent",
-        type: "NUMBER",
-        position: 3,
-        required: true,
-        placeholder: "Enter Per day rent",
-        choices: [],
-      },
-      {
-        id: "starting_km",
-        name: "starting_km",
-        label: "Starting Km",
-        type: "NUMBER",
-        position: 3,
-        required: true,
-        placeholder: "Enter Starting Km",
-        choices: [],
-      },
-      {
-        id: "payment_mode",
-        name: "payment_mode",
-        label: "Payment Method",
-        type: "DROPDOWN",
-        position: 3,
-        required: true,
-        placeholder: "Start Payment Method",
-        choices: paymentOptions,
-      },
-      {
-        id: "added_by",
-        name: "added_by",
-        label: "Added By",
-        type: "DROPDOWN",
-        position: 3,
-        required: true,
-        placeholder: "Enter Added By",
-        choices: addedByOptions,
-      },
-    ],
-  };
-
   if (isLoading) {
     return <Loader />;
   }
@@ -471,9 +385,92 @@ const CreateRental = (props) => {
               </div>
               <div>OTP Validated &#10003; &#9989;</div>
               <FwForm
-                formSchema={rentalFormSchema}
+                // formSchema={rentalFormSchema}
                 initialValues={customerInitialValues}
-                ref={customerFormRef}></FwForm>
+                ref={customerFormRef}>
+                <FwFormControl
+                  type="TEXT"
+                  name="customer_name"
+                  required
+                  label="Customer Name"
+                  placeholder="Enter Customer Name"></FwFormControl>
+                <FwFormControl
+                  type="NUMBER"
+                  name="alternate_no"
+                  required
+                  label="Alternate Number"
+                  placeholder="Enter Alternate Number"></FwFormControl>
+                <FwFormControl
+                  type="TEXT"
+                  name="address"
+                  required
+                  label="Address"
+                  placeholder="Enter Address"></FwFormControl>
+                <FwFormControl
+                  type="TEXT"
+                  name="proof_no"
+                  required
+                  label="Proof Number"
+                  placeholder="Enter Proof Number"></FwFormControl>
+                <FwFormControl
+                  type="MULTI_SELECT"
+                  name="proof_given"
+                  required
+                  label="Proof Given"
+                  placeholder="Enter Proof Given"
+                  choices={proofOptions}></FwFormControl>
+                <FwFormControl
+                  type="DROPDOWN"
+                  name="vehicle"
+                  required
+                  label="Vehicle"
+                  placeholder="Select Vehicle"
+                  choices={vehicleOption}></FwFormControl>
+                <FwFormControl
+                  type="DATE_TIME"
+                  name="start_date"
+                  // required
+                  label="Start Date"
+                  placeholder="Select Start Date"></FwFormControl>
+                <FwFormControl
+                  type="NUMBER"
+                  name="expected_delivery"
+                  required
+                  label="Expected Delivery"
+                  placeholder="Enter Expected Delivery"></FwFormControl>
+                <FwFormControl
+                  type="NUMBER"
+                  name="advance_amount"
+                  required
+                  label="Advance Amount"
+                  placeholder="Enter Advance Amount"></FwFormControl>
+                <FwFormControl
+                  type="NUMBER"
+                  name="per_day_rent"
+                  required
+                  label="Per day rent"
+                  placeholder="Enter Per day rent"></FwFormControl>
+                <FwFormControl
+                  type="NUMBER"
+                  name="starting_km"
+                  required
+                  label="Starting Km"
+                  placeholder="Enter Starting Km"></FwFormControl>
+                <FwFormControl
+                  type="DROPDOWN"
+                  name="payment_mode"
+                  required
+                  label="Payment mode"
+                  placeholder="Select Payment mode"
+                  choices={paymentOptions}></FwFormControl>
+                <FwFormControl
+                  type="DROPDOWN"
+                  name="added_by"
+                  required
+                  label="Added By"
+                  placeholder="Select Added By"
+                  choices={addedByOptions}></FwFormControl>
+              </FwForm>
               <FwButton
                 className="ml-2"
                 color="primary"
