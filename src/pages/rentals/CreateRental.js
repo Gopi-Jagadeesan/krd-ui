@@ -3,6 +3,8 @@ import {
   FwForm,
   FwFormControl,
   FwModal,
+  FwSelect,
+  FwSelectOption,
   ToastController,
 } from "@freshworks/crayons/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -176,53 +178,53 @@ const CreateRental = (props) => {
 
     let isValid = !values.customer_name
       ? customerFormRef.current.setFieldErrors({
-        customer_name: "Customer Name is required",
-      }) & false
+          customer_name: "Customer Name is required",
+        }) & false
       : !values.alternate_no
-        ? customerFormRef.current.setFieldErrors({
+      ? customerFormRef.current.setFieldErrors({
           alternate_no: "Alternate number is required",
         }) & false
-        : !values.address
-          ? customerFormRef.current.setFieldErrors({
-            address: "Address is required",
-          }) & false
-          : !values.proof_no
-            ? customerFormRef.current.setFieldErrors({
-              proof_no: "Proof number is required",
-            }) & false
-            : !values.proof_given
-              ? customerFormRef.current.setFieldErrors({
-                proof_given: "Proof given is required",
-              }) & false
-              : !values.vehicle
-                ? customerFormRef.current.setFieldErrors({
-                  vehicle: "Vehicle is required",
-                }) & false
-                : !values.expected_delivery
-                  ? customerFormRef.current.setFieldErrors({
-                    expected_delivery: "Expected delivery is required",
-                  }) & false
-                  : !values.advance_amount
-                    ? customerFormRef.current.setFieldErrors({
-                      advance_amount: "Advance amount is required",
-                    }) & false
-                    : !values.per_day_rent
-                      ? customerFormRef.current.setFieldErrors({
-                        per_day_rent: "Per day rent is required",
-                      }) & false
-                      : !values.starting_km
-                        ? customerFormRef.current.setFieldErrors({
-                          starting_km: "Starting km is required",
-                        }) & false
-                        : !values.payment_mode
-                          ? customerFormRef.current.setFieldErrors({
-                            payment_mode: "Payment mode is required",
-                          }) & false
-                          : !values.added_by
-                            ? customerFormRef.current.setFieldErrors({
-                              added_by: "Added by is required",
-                            }) & false
-                            : true;
+      : !values.address
+      ? customerFormRef.current.setFieldErrors({
+          address: "Address is required",
+        }) & false
+      : !values.proof_no
+      ? customerFormRef.current.setFieldErrors({
+          proof_no: "Proof number is required",
+        }) & false
+      : !values.proof_given
+      ? customerFormRef.current.setFieldErrors({
+          proof_given: "Proof given is required",
+        }) & false
+      : !values.vehicle
+      ? customerFormRef.current.setFieldErrors({
+          vehicle: "Vehicle is required",
+        }) & false
+      : !values.expected_delivery
+      ? customerFormRef.current.setFieldErrors({
+          expected_delivery: "Expected delivery is required",
+        }) & false
+      : !values.advance_amount
+      ? customerFormRef.current.setFieldErrors({
+          advance_amount: "Advance amount is required",
+        }) & false
+      : !values.per_day_rent
+      ? customerFormRef.current.setFieldErrors({
+          per_day_rent: "Per day rent is required",
+        }) & false
+      : !values.starting_km
+      ? customerFormRef.current.setFieldErrors({
+          starting_km: "Starting km is required",
+        }) & false
+      : !values.payment_mode
+      ? customerFormRef.current.setFieldErrors({
+          payment_mode: "Payment mode is required",
+        }) & false
+      : !values.added_by
+      ? customerFormRef.current.setFieldErrors({
+          added_by: "Added by is required",
+        }) & false
+      : true;
 
     if (isValid) {
       createRental(values);
@@ -477,6 +479,15 @@ const CreateRental = (props) => {
                 onClick={handleCustomerFormSubmit}>
                 Save
               </FwButton>
+              <FwSelect
+                label="House Name"
+                required
+                value="1"
+                placeholder="Your choice"
+                hintText="Select singluar option">
+                <FwSelectOption value="1">Starks</FwSelectOption>
+                <FwSelectOption value="2">Lannisters</FwSelectOption>
+              </FwSelect>
             </>
           )}
         </CardText>
