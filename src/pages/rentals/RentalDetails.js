@@ -14,6 +14,7 @@ const RentalDetails = (props) => {
   const [customerDetails, setCustomerDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log("rentalDetails ------>", rentalDetails);
   // Get rental details initially
   useEffect(() => {
     getRentalDetails(id);
@@ -150,9 +151,15 @@ const RentalDetails = (props) => {
                   </span>
                 </div>
                 <div className="mt-2">
-                  End date :
+                  End date :{" "}
                   <span className="font-weight-bold">
                     {rentalDetails.end_date}
+                  </span>
+                </div>
+                <div className="mt-2">
+                  Proof Given :{" "}
+                  <span className="font-weight-bold">
+                    {rentalDetails.proof_given}
                   </span>
                 </div>
               </CardText>

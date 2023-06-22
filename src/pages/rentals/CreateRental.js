@@ -56,6 +56,7 @@ const CreateRental = (props) => {
     { value: "rcCard", label: "RC book" },
     { value: "collegeId", label: "College ID" },
     { value: "workId", label: "Work ID" },
+    { value: "voterId", label: "Voter ID" },
   ];
 
   // Added by Options
@@ -220,8 +221,11 @@ const CreateRental = (props) => {
           proofGiven.push({ id: data.value, name: data.label });
         }
       });
-    proofGiven = JSON.stringify(proofGiven);
-    data.append("proof_given", proofGiven ? proofGiven : "");
+
+    const proofs = proofGiven.map((item) => item.name);
+
+    let proof = proofs.join(", ");
+    data.append("proof_given", proof ? proof : "");
     if (values && values.proof_no !== undefined) {
       data.append("proof_no", values && values.proof_no);
     }
