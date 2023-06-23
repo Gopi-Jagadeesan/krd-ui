@@ -247,6 +247,7 @@ const Rental = (props) => {
                   placeholder="Select Vehicle..."
                   error=""
                   required={true}
+                  isSearchable
                   fontBolded
                   options={vehicleOption}
                 />
