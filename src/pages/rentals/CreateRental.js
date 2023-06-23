@@ -57,6 +57,7 @@ const CreateRental = (props) => {
     { value: "collegeId", label: "College ID" },
     { value: "workId", label: "Work ID" },
     { value: "voterId", label: "Voter ID" },
+    { value: "passport", label: "Passport" },
   ];
 
   // Added by Options
