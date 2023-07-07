@@ -10,6 +10,7 @@ export const endpoints = () => ({
   rolesAPI: appApi("v1/sysroles"),
   customersAPI: appApi("v1/customers"),
   dashboardAPI: appApi("v1/dashboard"),
+  bikeRentalsAPI: appApi("v1/bikerentals"),
 });
 
 // Default API Key

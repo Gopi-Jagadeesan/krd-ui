@@ -22,7 +22,7 @@ const Footer = (props) => {
           <div className="row">
             <div className="col mx-auto text-left">
               <span>
-                &copy; {getCurrentYear()}
+                &copy; {getCurrentYear()} KRD All rights reserved.
                 <a
                   className="ml-2"
                   target="#"

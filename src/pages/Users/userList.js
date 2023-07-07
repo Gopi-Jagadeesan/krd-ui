@@ -79,11 +79,8 @@ const UserList = (props) => {
     if (values && values.name !== undefined) {
       data.append("name", values.name);
     }
-    if (values && values.role) {
-      data.append("role", values.role);
-    }
-    if (values && values.slack_id !== undefined) {
-      data.append("slack_id", values && values.slack_id ? values.slack_id : "");
+    if (values && values.password !== undefined) {
+      data.append("password", values && values.password ? values.password : "");
     }
 
     dispatch(API.addUser(data, {}));
@@ -128,16 +125,10 @@ const UserList = (props) => {
         values && values.name ? values.name : currentData.name
       );
     }
-    if (values && values.role) {
+    if (values && values.password !== undefined) {
       data.append(
-        "role",
-        values && values.role ? values.role : currentData.role
-      );
-    }
-    if (values && values.slack_id !== undefined) {
-      data.append(
-        "slack_id",
-        values && values.slack_id ? values.slack_id : currentData.slack_id
+        "password",
+        values && values.password ? values.password : currentData.password
       );
     }
 
@@ -237,23 +228,13 @@ const UserList = (props) => {
         choices: [],
       },
       {
-        id: "role",
-        name: "role",
-        label: "Role",
-        type: "DROPDOWN",
-        position: 3,
-        required: true,
-        placeholder: "Select Role",
-        choices: roleList ? roleList : [],
-      },
-      {
-        id: "slack_id",
-        name: "slack_id",
-        label: "Slack ID",
+        id: "password",
+        name: "password",
+        label: "Password",
         type: "TEXT",
         position: 3,
-        required: false,
-        placeholder: "Enter Slack ID",
+        required: true,
+        placeholder: "Enter Password",
         choices: [],
       },
     ],
@@ -331,13 +312,9 @@ const UserList = (props) => {
       {/*Redux table  */}
       <PageTitle
         label="Users"
-        buttonHandler={
-          rolePermissions && rolePermissions.create_user === "true"
-            ? () => {
-                toggle();
-              }
-            : ""
-        }
+        buttonHandler={() => {
+          toggle();
+        }}
         buttonLabel="Add New"
       />
 

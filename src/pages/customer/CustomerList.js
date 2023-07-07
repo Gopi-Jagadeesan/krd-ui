@@ -90,7 +90,6 @@ const CustomerList = (props) => {
           sortByOptions={sortByOption}
           disableColumnSort={true}
           onRowClick={(row) => {
-            console.log("row ------->", row);
             history.push(`/customers/details/${row.id}`);
           }}>
           <ReduxColumn

@@ -8,9 +8,6 @@ import dashboardIcon from "../../assets/icons/dashboard-icon.svg";
 import usersIcon from "../../assets/icons/icon-user.svg";
 import userIcon from "../../assets/icons/user.svg";
 import typeIcon from "../../assets/icons/type.svg";
-import paymentModeIcon from "../../assets/icons/payment-mode.svg";
-import overdueIcon from "../../assets/icons/overdue.svg";
-import roleIcon from "../../assets/icons/roles.svg";
 import reportIcon from "../../assets/icons/activity.svg";
 import loanIcon from "../../assets/icons/ticket.svg";
 
@@ -78,9 +75,24 @@ const ProjectLayout = (props) => {
       icon: dashboardIcon,
     });
     arrayList = arrayList.concat({
-      name: "Rentals",
+      name: "Car Rentals",
       url: `/rentals`,
-      icon: usersIcon,
+      icon: loanIcon,
+    });
+    arrayList = arrayList.concat({
+      name: "Cars Rental History",
+      url: "/rental-history",
+      icon: reportIcon,
+    });
+    arrayList = arrayList.concat({
+      name: "Bike Rentals",
+      url: `/bike-rentals`,
+      icon: loanIcon,
+    });
+    arrayList = arrayList.concat({
+      name: "Bike Rental History",
+      url: "/bike/rental-history",
+      icon: reportIcon,
     });
     arrayList = arrayList.concat({
       name: "Customers",
@@ -92,11 +104,7 @@ const ProjectLayout = (props) => {
       url: "/vehicles",
       icon: typeIcon,
     });
-    arrayList = arrayList.concat({
-      name: "Rental History",
-      url: "/rental-history",
-      icon: paymentModeIcon,
-    });
+
     arrayList = arrayList.concat({
       name: "Users",
       url: "/users",

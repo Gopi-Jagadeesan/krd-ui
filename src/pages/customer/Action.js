@@ -125,7 +125,6 @@ export function addCustomer(data, history) {
             type: "success",
             content: successMessage,
           });
-          console.log("response.data.id =====>", response.data.id);
           history.push(
             `customers/details/${response && response.data && response.data.id}`
           );

@@ -5,7 +5,7 @@ import Loader from "../../components/Loader";
 import { Card, CardBody, CardHeader, CardText, Col, Row } from "reactstrap";
 import PageTitle from "../../components/PageTitle";
 
-const RentalDetails = (props) => {
+const BikeRentalDetails = (props) => {
   // Get id from URL
   let id = props.match.params.id;
 
@@ -30,7 +30,7 @@ const RentalDetails = (props) => {
     setIsLoading(true);
     try {
       await apiClient
-        .get(`${endpoints().rentalsAPI}/${id}`)
+        .get(`${endpoints().bikeRentalsAPI}/${id}`)
         .then((response) => {
           setRentalDetails(response && response.data);
         });
@@ -76,7 +76,7 @@ const RentalDetails = (props) => {
 
   return (
     <div>
-      <PageTitle label="Rentals Details" normalButton />
+      <PageTitle label="Bike Rental Details" normalButton />
       <Row>
         <Col sm="7">
           <Card className="my-2" color="info" outline>
@@ -277,4 +277,4 @@ const RentalDetails = (props) => {
   );
 };
 
-export default RentalDetails;
+export default BikeRentalDetails;

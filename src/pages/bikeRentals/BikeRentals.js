@@ -24,7 +24,7 @@ import { Button } from "reactstrap";
 import Select from "../../components/Select";
 import Number from "../../components/Number";
 
-const Rental = (props) => {
+const BikeRentals = (props) => {
   const { history } = props;
   const [currentDeleteData, setCurrentDeleteData] = useState();
   const [deleteModal, setDeleteModal] = useState(false);
@@ -288,9 +288,9 @@ const Rental = (props) => {
 
       {/*Redux table  */}
       <PageTitle
-        label="Rentals"
+        label="Bike Rentals"
         buttonHandler={() => {
-          history.push(`/rentals/create`);
+          history.push(`/bike/rentals/create`);
         }}
         buttonLabel="Add New"
       />
@@ -298,15 +298,15 @@ const Rental = (props) => {
       <div className="mt-4 mb-5">
         <ReduxTable
           onScroll
-          id="rentals"
+          id="bikeRentals"
           showHeader
           searchPlaceholder="Search Rentals"
-          apiURL={`${endpoints().rentalsAPI}/search/${status}`}
+          apiURL={`${endpoints().bikeRentalsAPI}/search/${status}`}
           newTableHeading
           sortByOptions={sortByOption}
           disableColumnSort={true}
           onRowClick={(row) => {
-            history.push(`/rentals/details/${row.id}`);
+            history.push(`/bike/rentals/details/${row.id}`);
           }}>
           <ReduxColumn
             minWidth="150px"
@@ -393,4 +393,4 @@ const Rental = (props) => {
     </>
   );
 };
-export default Rental;
+export default BikeRentals;

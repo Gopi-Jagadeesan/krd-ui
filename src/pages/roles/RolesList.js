@@ -66,7 +66,6 @@ const RolesList = (props) => {
    * @param values
    */
   const handleSave = (values) => {
-    console.log("values ----->", values);
     const data = new FormData();
 
     if (values && values.name !== undefined) {
@@ -413,7 +412,6 @@ const RolesList = (props) => {
             className="action-column"
             disableOnClick
             renderField={(row) => (
-              console.log("row ---->", row),
               (
                 <div className="text-center">
                   {row.role !== "Super Admin" && (

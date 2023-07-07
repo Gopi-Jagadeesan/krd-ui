@@ -9,7 +9,7 @@ import { apiClient } from "../../apiClient";
 import { endpoints } from "../../configs";
 import { FwForm } from "@freshworks/crayons/react";
 
-const EditRentals = (props) => {
+const EditBikeRentals = (props) => {
   // Get id from URL
   let id = props.match.params.id;
 
@@ -40,7 +40,7 @@ const EditRentals = (props) => {
     setIsLoading(true);
     try {
       await apiClient
-        .get(`${endpoints().rentalsAPI}/${id}`)
+        .get(`${endpoints().bikeRentalsAPI}/${id}`)
         .then((response) => {
           setRentalDetails(response && response.data);
         });
@@ -57,7 +57,7 @@ const EditRentals = (props) => {
   //     await apiClient
   //       .get(`${endpoints().vehiclesAPI}/${id}`)
   //       .then((response) => {
-  //         setVehicleDetails(response && response.data);
+  //         // setVehicleDetails(response && response.data);
   //       });
   //   } catch (error) {
   //     console.error(error);
@@ -302,4 +302,4 @@ const EditRentals = (props) => {
   );
 };
 
-export default EditRentals;
+export default EditBikeRentals;

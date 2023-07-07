@@ -3,12 +3,12 @@ import InsightCard from "./inner-components/InsightCard";
 import QuickCardData from "./inner-components/QuickCardData";
 import { endpoints } from "../configs";
 import { apiClient } from "../apiClient";
+import Loader from "../components/Loader";
 
 const Dashboard = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [dashboardData, setDashboardData] = useState({});
 
-  console.log("dashboardData ----->", dashboardData);
   useEffect(() => {
     getDashboardData();
   }, [props]);
@@ -61,6 +61,10 @@ const Dashboard = (props) => {
       redirectTo: "/customers",
     },
   ];
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <InsightCard dashboardData={dashboardData} />

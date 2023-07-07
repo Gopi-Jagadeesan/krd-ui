@@ -46,27 +46,44 @@ function fetchSettingsFail() {
  * Fetch Settings
  */
 export function fetchSettings() {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(requestSettings());
     try {
-      const response = await apiClient
-        .get(`${endpoints().settingsAPI}`);
+      // Create a timeout promise
+      const timeoutPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject(new Error('Request timed out'));
+        }, 30000); // 30 seconds timeout
+      });
+
+      // Combine the timeout promise with the actual API request
+      const response = await Promise.race([
+        timeoutPromise,
+        apiClient.get(`${endpoints().settingsAPI}`),
+      ]);
+
       const response_1 = response;
       dispatch(receiveSettings(response_1));
     } catch (error) {
       dispatch(fetchSettingsFail());
 
-      if (error.status >= 400) {
+      if (error.message === 'Request timed out') {
+        toastMessage.trigger({
+          type: 'error',
+          content: 'Request timed out. Please try again.',
+        });
+      } else if (error.status >= 400) {
         let errorMessage;
         const errorRequest = error.response.request;
         if (errorRequest && errorRequest.response) {
           errorMessage = JSON.parse(errorRequest.response).message;
         }
         toastMessage.trigger({
-          type: "error",
+          type: 'error',
           content: errorMessage,
         });
       }
     }
   };
 }
+

@@ -12,6 +12,10 @@ import CreateRental from "./pages/rentals/CreateRental";
 import RentalDetails from "./pages/rentals/RentalDetails";
 import EditRentals from "./pages/rentals/EditRentals";
 import CustomerDetail from "./pages/customer/CustomerDetail";
+import BikeRentals from "./pages/bikeRentals/BikeRentals";
+import CreateBikeRental from "./pages/bikeRentals/CreateBikeRental";
+import BikeRentalDetails from "./pages/bikeRentals/BikeRentalDetails";
+import BikeRentalHistory from "./pages/bikeRentals/BikeRentalHistory";
 
 // List of routes
 const routes = [
@@ -52,11 +56,24 @@ const routes = [
     component: Rental,
   },
   {
+    path: "/bike-rentals",
+    exact: true,
+    name: "BikeRentals",
+    component: BikeRentals,
+  },
+  {
     path: "/rentals/create",
     exact: true,
     name: "CreateRental",
     component: CreateRental,
   },
+  {
+    path: "/bike/rentals/create",
+    exact: true,
+    name: "CreateBikeRental",
+    component: CreateBikeRental,
+  },
+
   {
     path: "/edit-rental/:id",
     exact: true,
@@ -70,6 +87,13 @@ const routes = [
     component: RentalDetails,
   },
   {
+    path: "/bike/rentals/details/:id",
+    exact: true,
+    name: "BikeRentalDetails",
+    component: BikeRentalDetails,
+  },
+
+  {
     path: "/vehicles",
     exact: true,
     name: "Vehicles",
@@ -81,7 +105,12 @@ const routes = [
     name: "RentalHistory",
     component: RentalHistory,
   },
-
+  {
+    path: "/bike/rental-history",
+    exact: true,
+    name: "BikeRentalHistory",
+    component: BikeRentalHistory,
+  },
   {
     path: "/roles",
     exact: true,

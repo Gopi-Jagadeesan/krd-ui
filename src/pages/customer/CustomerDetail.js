@@ -16,10 +16,6 @@ const CustomerDetail = (props) => {
   const [customerDetails, setCustomerDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log("rentalDetails ----->", rentalDetails);
-  console.log("vehicleDetails ----->", vehicleDetails);
-  console.log("customerDetails ----->", customerDetails);
-
   // Get rental details initially
   useEffect(() => {
     getCustomerDetails(id);

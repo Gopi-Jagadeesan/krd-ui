@@ -83,6 +83,7 @@ const Vehicles = () => {
     if (values && values.notes !== undefined) {
       data.append("notes", values && values.notes);
     }
+    data.append("status", "in");
     if (values && values.type !== undefined) {
       data.append("type", values && values.type);
     }
@@ -100,7 +101,6 @@ const Vehicles = () => {
    * @param values
    */
   const handleEditSave = (values) => {
-    console.log("values ----->", values);
     const data = new FormData();
     if (currentData) {
       data.append("id", currentData && currentData.id);

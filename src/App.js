@@ -41,6 +41,10 @@ import CreateRental from "./pages/rentals/CreateRental";
 import RentalDetails from "./pages/rentals/RentalDetails";
 import EditRentals from "./pages/rentals/EditRentals";
 import CustomerDetail from "./pages/customer/CustomerDetail";
+import BikeRentals from "./pages/bikeRentals/BikeRentals";
+import BikeRentalDetails from "./pages/bikeRentals/BikeRentalDetails";
+import EditBikeRentals from "./pages/bikeRentals/EditBikeRentals";
+import CreateBikeRental from "./pages/bikeRentals/CreateBikeRental";
 
 const loading = () => (
   <div className="animated fadeIn pt-3 text-center">Loading...</div>
@@ -74,7 +78,6 @@ class App extends Component {
     const currentPath = window.location.pathname + window.location.search;
     if (currentPath === "/dashboard") {
       isLoggedIn();
-      console.log("isLoggedIn(); =====>", isLoggedIn());
     }
   }
 
@@ -166,6 +169,14 @@ class App extends Component {
                 />
                 <ProjectLayout
                   exact
+                  name="BikeRentals"
+                  path={"/bike-rentals"}
+                  component={BikeRentals}
+                  settings={settings}
+                />
+
+                <ProjectLayout
+                  exact
                   name="RentalDetails"
                   path={"/rentals/details/:id"}
                   component={RentalDetails}
@@ -173,9 +184,24 @@ class App extends Component {
                 />
                 <ProjectLayout
                   exact
+                  name="BikeRentalDetails"
+                  path={"/bike/rentals/details/:id"}
+                  component={BikeRentalDetails}
+                  settings={settings}
+                />
+
+                <ProjectLayout
+                  exact
                   name="EditRentals"
                   path={"/edit-rental/:id"}
                   component={EditRentals}
+                  settings={settings}
+                />
+                <ProjectLayout
+                  exact
+                  name="EditBikeRentals"
+                  path={"/edit-bike-rental/:id"}
+                  component={EditBikeRentals}
                   settings={settings}
                 />
 
@@ -184,6 +210,13 @@ class App extends Component {
                   name="CreateRental"
                   path={"/rentals/create"}
                   component={CreateRental}
+                  settings={settings}
+                />
+                <ProjectLayout
+                  exact
+                  name="CreateBikeRental"
+                  path={"/bike/rentals/create"}
+                  component={CreateBikeRental}
                   settings={settings}
                 />
                 <ProjectLayout
@@ -197,6 +230,13 @@ class App extends Component {
                   exact
                   name="RentalHistory"
                   path={"/rental-history"}
+                  component={RentalHistory}
+                  settings={settings}
+                />
+                <ProjectLayout
+                  exact
+                  name="BikeRentalHistory"
+                  path={"/bike/rental-history"}
                   component={RentalHistory}
                   settings={settings}
                 />

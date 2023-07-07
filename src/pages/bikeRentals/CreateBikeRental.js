@@ -32,7 +32,7 @@ import CreatableDropdown from "../../components/CreatableDropdown";
 // Initialize toast message
 const toastMessage = ToastController({ position: "top-center" });
 
-const CreateRental = (props) => {
+const CreateBikeRental = (props) => {
   const { history } = props;
   const [otpSent, setOtpSent] = useState(false);
   const [otpValidated, setOtpValidated] = useState(false);
@@ -279,7 +279,7 @@ const CreateRental = (props) => {
     }
     dispatch(API.addRentals(data, history, {}));
     setIsLoading(false);
-    history.push(`/rentals`);
+    history.push(`/bike-rentals`);
   };
   const mobileinitialValues = {
     mobile_no: mobileNumber ? mobileNumber : "",
@@ -473,6 +473,7 @@ const CreateRental = (props) => {
                 <FwSelectOption value="1">Starks</FwSelectOption>
                 <FwSelectOption value="2">Lannisters</FwSelectOption>
               </FwSelect> */}
+              {/* <Camera /> */}
               <div>
                 {picture == "" ? (
                   <Webcam
@@ -660,4 +661,4 @@ const CreateRental = (props) => {
   );
 };
 
-export default CreateRental;
+export default CreateBikeRental;
