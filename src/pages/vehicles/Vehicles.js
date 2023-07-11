@@ -404,6 +404,10 @@ const Vehicles = () => {
           <ReduxColumn minWidth="150px" field="notes">
             Notes
           </ReduxColumn>
+          <ReduxColumn minWidth="150px" field="status">
+            Status
+          </ReduxColumn>
+
           <ReduxColumn
             minWidth="70px"
             field="Action"
